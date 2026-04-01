@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Human Support — MannMitra</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌿</span>
+        MannMitra
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="chat.html">AI Chat</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="support-hero">
+    <div class="container">
+      <h1>🤝 Talk to a Real Person</h1>
+      <p>
+        Sometimes you need more than an AI can offer. Book a session with a trained
+        mental health counsellor — kind, confidential, and judgment-free.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="support-content">
+    <div class="container">
+      <div class="support-grid">
+
+        <!-- Booking Form -->
+        <div class="booking-card">
+          <h2>Book a Counselling Session</h2>
+          <p>Fill in your details and a counsellor will get back to you as soon as possible.</p>
+
+          <form id="bookingForm">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required aria-required="true" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required aria-required="true" />
+            </div>
+
+            <div class="form-group">
+              <label for="preferredTime">Preferred Time for Call</label>
+              <select id="preferredTime" name="preferredTime">
+                <option value="">Select a time slot</option>
+                <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
+                <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
+                <option value="Evening (4 PM – 8 PM)">Evening (4 PM – 8 PM)</option>
+                <option value="Any time">Any time works</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">What's on your mind? <span style="font-weight:400; color: var(--text-muted)">(optional)</span></label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Share a little about what you're going through — this helps us match you with the right counsellor."
+              ></textarea>
+            </div>
+
+            <div id="formError" role="alert" aria-live="polite" style="color: var(--crisis); font-size: 0.9rem; margin-bottom: 1rem; display: none;"></div>
+
+            <button type="submit" class="btn btn-primary form-submit">
+              Request a Session 🙏
+            </button>
+            <p class="form-note">🔒 Your information is kept strictly confidential.</p>
+          </form>
+
+          <!-- Success State -->
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">🙏</div>
+            <h3>Request Received!</h3>
+            <p>
+              Thank you for reaching out. A counsellor will contact you soon.<br /><br />
+              If you're in immediate crisis, please call the helplines listed on this page.
+            </p>
+            <a href="chat.html" class="btn btn-outline" style="margin-top: 1.5rem;">
+              💬 Chat with MannMitra
+            </a>
+          </div>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="info-cards">
+
+          <!-- Why human support -->
+          <div class="info-card">
+            <h3>💙 Why speak to a human?</h3>
+            <ul>
+              <li>Deeper, personalised conversations</li>
+              <li>Professional guidance and therapy</li>
+              <li>Ongoing support and follow-up</li>
+              <li>Safe, structured therapeutic environment</li>
+            </ul>
+          </div>
+
+          <!-- Crisis Helplines -->
+          <div class="info-card">
+            <h3>🚨 Immediate Crisis Helplines</h3>
+            <div class="helpline-item">
+              <strong>iCall (TISS)</strong>
+              <span class="helpline-number">9152987821</span>
+            </div>
+            <div class="helpline-item">
+              <strong>Vandrevala Foundation</strong>
+              <span class="helpline-number">1860-2662-345</span>
+            </div>
+            <div class="helpline-item">
+              <strong>AASRA</strong>
+              <span class="helpline-number">9820466627</span>
+            </div>
+            <div class="helpline-item">
+              <strong>Snehi</strong>
+              <span class="helpline-number">044-24640050</span>
+            </div>
+            <div class="helpline-item">
+              <strong>Emergency</strong>
+              <span class="helpline-number">112</span>
+            </div>
+          </div>
+
+          <!-- What to expect -->
+          <div class="info-card">
+            <h3>📋 What to expect</h3>
+            <ul>
+              <li>Response within 24 hours</li>
+              <li>Initial 30-minute consultation</li>
+              <li>Completely confidential</li>
+              <li>No stigma, no judgment</li>
+              <li>Hindi and English support</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">🌿 MannMitra</div>
+      <p>Your mental wellness companion — made with ❤️ for India</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="chat.html">AI Chat</a>
+      </div>
+      <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">
+        Disclaimer: MannMitra is a supportive tool and is not a substitute for professional mental health care.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('bookingForm');
+    const formSuccess = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError.style.display = 'none';
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const preferredTime = document.getElementById('preferredTime').value;
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !phone) {
+        formError.textContent = 'Please fill in all required fields.';
+        formError.style.display = 'block';
+        return;
+      }
+
+      const submitBtn = form.querySelector('[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, preferredTime, message })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          form.style.display = 'none';
+          formSuccess.style.display = 'block';
+        } else {
+          formError.textContent = data.error || 'Something went wrong. Please try again.';
+          formError.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Request a Session 🙏';
+        }
+      } catch {
+        formError.textContent = 'Network error. Please check your connection and try again.';
+        formError.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request a Session 🙏';
+      }
+    });
+  </script>
+
+</body>
+</html>

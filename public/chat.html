@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat — MannMitra</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌿</span>
+        MannMitra
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="support.html">Talk to a Human</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Chat Layout -->
+  <div class="chat-layout">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="avatar">🌿</div>
+        <div>
+          <h2>MannMitra</h2>
+          <div class="chat-status">
+            <div class="status-dot"></div>
+            Online &amp; Ready to listen
+          </div>
+        </div>
+      </div>
+      <a href="support.html" class="btn btn-ghost" style="font-size: 0.85rem; padding: 0.45rem 1rem;">
+        🤝 Talk to a Human
+      </a>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <!-- Welcome message rendered by JS -->
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+      <div class="quick-replies" id="quickReplies">
+        <button class="quick-reply" data-msg="I'm feeling anxious">😰 Anxious</button>
+        <button class="quick-reply" data-msg="I'm feeling sad">😢 Sad</button>
+        <button class="quick-reply" data-msg="I'm very stressed">😤 Stressed</button>
+        <button class="quick-reply" data-msg="I'm feeling lonely">😔 Lonely</button>
+        <button class="quick-reply" data-msg="I can't sleep">🌙 Can't sleep</button>
+      </div>
+      <div class="input-row">
+        <textarea
+          id="messageInput"
+          rows="1"
+          placeholder="Share what's on your mind… (press Enter to send)"
+          aria-label="Type your message"
+        ></textarea>
+        <button id="sendBtn" aria-label="Send message">➤</button>
+      </div>
+      <p class="input-disclaimer">
+        🔒 This conversation is private &amp; confidential.
+        MannMitra is not a substitute for professional care.
+        In emergencies call <strong>112</strong>.
+      </p>
+    </div>
+
+  </div>
+
+  <script src="js/chat.js"></script>
+</body>
+</html>
