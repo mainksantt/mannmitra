@@ -75,18 +75,27 @@ function hideTyping() {
 
 // ── Show crisis alert in chat ──────────────────────────────────────────────
 function showCrisisAlert(crisisMessage) {
-  const alert = document.createElement('div');
-  alert.className = 'crisis-alert';
+  const alertEl = document.createElement('div');
+  alertEl.className = 'crisis-alert';
 
-  alert.innerHTML = `
-    <div class="crisis-alert-title">🚨 Immediate Support Available</div>
-    <p>${crisisMessage}</p>
-    <a href="support.html" class="btn btn-primary" style="font-size:0.88rem; padding:0.55rem 1.1rem;">
-      📋 Book a Session Now
-    </a>
-  `;
+  const title = document.createElement('div');
+  title.className = 'crisis-alert-title';
+  title.textContent = '🚨 Immediate Support Available';
 
-  messagesEl.appendChild(alert);
+  const body = document.createElement('p');
+  body.textContent = crisisMessage;
+
+  const link = document.createElement('a');
+  link.href = 'support.html';
+  link.className = 'btn btn-primary';
+  link.style.cssText = 'font-size:0.88rem; padding:0.55rem 1.1rem;';
+  link.textContent = '📋 Book a Session Now';
+
+  alertEl.appendChild(title);
+  alertEl.appendChild(body);
+  alertEl.appendChild(link);
+
+  messagesEl.appendChild(alertEl);
   scrollToBottom();
 }
 
