@@ -43,10 +43,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ── Session ────────────────────────────────────────────────────────────────────
-const sessionStore = new ConnectSQLite3({
-  db: config.databasePath.replace(/^\.\//, ''),
-  table: 'sessions',
-});
+const sessionStoreOptions = { table: 'sessions' };
+if (config.databasePath === ':memory:') {
+  sessionStoreOptions.db = ':memory:';
+} else {
+  const sessionDbPath = path.resolve(config.databasePath);
+  sessionStoreOptions.dir = path.dirname(sessionDbPath);
+  sessionStoreOptions.db = path.basename(sessionDbPath);
+}
+const sessionStore = new ConnectSQLite3(sessionStoreOptions);
 
 app.use(
   session({
