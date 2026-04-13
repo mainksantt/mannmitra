@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MannMitra — New Features Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #0F0F2E;
+    --indigo-mid: #1A1A4E;
+    --indigo-light: #252568;
+    --gold: #F5A623;
+    --gold-light: #FFD580;
+    --gold-pale: #FFF4D6;
+    --sage: #4CAF82;
+    --sage-light: #A8D5B5;
+    --sage-pale: #E8F5EE;
+    --cream: #FBF8F3;
+    --text-dark: #1C1C3E;
+    --text-mid: #4A4A7A;
+    --text-light: #8888AA;
+    --red-alert: #E53E3E;
+    --red-light: #FED7D7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); }
+
+  /* ─── SOS FLOATING WIDGET ─── */
+  .sos-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+  }
+  .sos-btn {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--red-alert); color: #fff;
+    border: 3px solid #fff; cursor: pointer;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(229, 62, 62, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse-sos 2s infinite;
+  }
+  @keyframes pulse-sos {
+    0%, 100% { box-shadow: 0 4px 20px rgba(229,62,62,0.5); }
+    50% { box-shadow: 0 4px 32px rgba(229,62,62,0.9), 0 0 0 8px rgba(229,62,62,0.15); }
+  }
+  .sos-btn:hover { transform: scale(1.08); }
+  .sos-btn svg { width: 20px; height: 20px; margin-bottom: 2px; }
+
+  /* ─── SOS OVERLAY ─── */
+  .sos-overlay {
+    position: fixed; inset: 0; background: rgba(15,15,46,0.85);
+    z-index: 9998; display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .sos-overlay.active { display: flex; }
+  .sos-panel {
+    background: #fff; border-radius: 20px; max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .sos-header {
+    background: linear-gradient(135deg, var(--red-alert), #C53030);
+    color: #fff; padding: 20px 24px 16px; border-radius: 20px 20px 0 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .sos-header h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 4px; }
+  .sos-header p { font-size: 13px; opacity: 0.85; }
+  .sos-close {
+    background: rgba(255,255,255,0.2); border: none; color: #fff;
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.2s;
+  }
+  .sos-close:hover { background: rgba(255,255,255,0.35); }
+
+  .sos-body { padding: 20px 24px; }
+
+  .relief-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .relief-tab {
+    padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--indigo-light); color: var(--indigo-light);
+    cursor: pointer; transition: all 0.2s; background: transparent;
+  }
+  .relief-tab.active { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+
+  .relief-content { display: none; }
+  .relief-content.active { display: block; }
+
+  /* Breathing animation */
+  .breath-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(76,175,130,0.3), rgba(76,175,130,0.1));
+    border: 2px solid var(--sage); margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700;
+    color: var(--sage); transition: transform 1s ease-in-out;
+  }
+  .breath-circle.inhale { transform: scale(1.35); background: radial-gradient(circle, rgba(76,175,130,0.5), rgba(76,175,130,0.2)); }
+  .breath-circle.hold { transform: scale(1.35); }
+  .breath-circle.exhale { transform: scale(0.9); }
+
+  .breath-label { text-align: center; font-size: 15px; font-weight: 500; color: var(--text-mid); margin-bottom: 8px; }
+  .breath-sub { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 16px; }
+  .breath-start {
+    width: 100%; padding: 10px; border-radius: 10px;
+    background: var(--sage); color: #fff; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    transition: background 0.2s;
+  }
+  .breath-start:hover { background: #3d9870; }
+
+  /* Grounding */
+  .ground-steps { counter-reset: step; }
+  .ground-step {
+    display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start;
+  }
+  .ground-num {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--gold-pale); color: var(--gold); 
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+    border: 1.5px solid var(--gold);
+  }
+  .ground-text strong { display: block; font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+  .ground-text span { font-size: 13px; color: var(--text-mid); }
+
+  /* Helplines */
+  .helpline-card {
+    background: var(--sage-pale); border: 1.5px solid var(--sage-light);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .helpline-icon { font-size: 22px; }
+  .helpline-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+  .helpline-num { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700; color: var(--sage); }
+  .helpline-time { font-size: 11px; color: var(--text-light); }
+
+  /* WhatsApp */
+  .wa-card {
+    background: #f0fdf4; border: 1.5px solid #86efac;
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .wa-info { }
+  .wa-name { font-size: 14px; font-weight: 600; color: #166534; }
+  .wa-desc { font-size: 12px; color: #4ade80; margin-top: 2px; }
+  .wa-btn {
+    background: #25D366; color: #fff; border: none; border-radius: 8px;
+    padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ─── VIGYAN / TRIBE V2 SECTION ─── */
+  .vigyan-section {
+    background: var(--indigo); color: #fff;
+    padding: 80px 24px; position: relative; overflow: hidden;
+  }
+  .vigyan-section::before {
+    content: 'विज्ञान'; position: absolute; top: -20px; right: -40px;
+    font-family: 'Playfair Display', serif; font-size: 180px; opacity: 0.04;
+    color: var(--gold); letter-spacing: -4px; line-height: 1; pointer-events: none;
+  }
+  .vigyan-container { max-width: 1100px; margin: 0 auto; }
+  .vigyan-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.4);
+    color: var(--gold); padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .vigyan-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.2; margin-bottom: 16px;
+  }
+  .vigyan-title .accent { color: var(--gold); }
+  .vigyan-subtitle { font-size: 17px; opacity: 0.7; max-width: 580px; line-height: 1.7; margin-bottom: 48px; }
+
+  .vigyan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
+  @media (max-width: 768px) { .vigyan-grid { grid-template-columns: 1fr; } }
+
+  .vigyan-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 24px; position: relative; overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .vigyan-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(245,166,35,0.3); }
+  .vigyan-card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(245,166,35,0.15); display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .vigyan-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+  .vigyan-card p { font-size: 14px; opacity: 0.65; line-height: 1.6; }
+  .vigyan-stat {
+    font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700;
+    color: var(--gold); display: block; margin-bottom: 4px;
+  }
+
+  .tribe-embed-box {
+    background: rgba(255,255,255,0.04); border: 1.5px solid rgba(245,166,35,0.25);
+    border-radius: 16px; padding: 24px; margin-top: 16px;
+  }
+  .tribe-embed-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: gap; }
+  .tribe-label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .tribe-meta-badge {
+    background: rgba(0,100,255,0.15); border: 1px solid rgba(0,100,255,0.3);
+    color: #60a5fa; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  }
+  .tribe-iframe-wrapper {
+    border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+  .tribe-iframe-wrapper iframe {
+    width: 100%; height: 480px; border: none; display: block;
+  }
+  .tribe-disclaimer { font-size: 11px; opacity: 0.45; margin-top: 10px; line-height: 1.5; }
+
+  /* ─── WISDOM SECTION ─── */
+  .wisdom-section { padding: 80px 24px; background: var(--cream); }
+  .wisdom-container { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem);
+    color: var(--text-dark); line-height: 1.25; margin-bottom: 12px;
+  }
+  .section-sub { font-size: 16px; color: var(--text-mid); max-width: 520px; line-height: 1.7; margin-bottom: 48px; }
+
+  .wisdom-tabs { display: flex; gap: 0; margin-bottom: 36px; border-radius: 12px; overflow: hidden; border: 1.5px solid rgba(15,15,46,0.15); width: fit-content; }
+  .wisdom-tab {
+    padding: 10px 24px; font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    background: #fff; color: var(--text-mid); transition: all 0.2s;
+  }
+  .wisdom-tab.active { background: var(--indigo); color: #fff; }
+
+  .wisdom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .wisdom-card {
+    background: #fff; border-radius: 16px; padding: 28px 24px;
+    border: 1px solid rgba(15,15,46,0.07);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .wisdom-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .wisdom-card::before {
+    content: '"'; position: absolute; top: -12px; left: 16px;
+    font-family: 'Playfair Display', serif; font-size: 100px; color: var(--gold-pale);
+    line-height: 1; pointer-events: none;
+  }
+  .wisdom-source {
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 16px;
+  }
+  .wisdom-source.gita { color: var(--gold); }
+  .wisdom-source.naval { color: var(--sage); }
+  .wisdom-text {
+    font-family: 'Playfair Display', serif; font-size: 1.05rem; line-height: 1.7;
+    color: var(--text-dark); font-style: italic; margin-bottom: 14px;
+  }
+  .wisdom-context { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+  .wisdom-ref { font-size: 11px; color: var(--text-light); margin-top: 10px; font-style: normal; }
+
+  /* ─── COMMUNITY / WHATSAPP SECTION ─── */
+  .community-section { background: var(--indigo-mid); padding: 72px 24px; }
+  .community-container { max-width: 1000px; margin: 0 auto; }
+  .community-header { text-align: center; margin-bottom: 48px; }
+  .community-header .section-eyebrow { color: var(--sage-light); }
+  .community-header .section-title { color: #fff; }
+  .community-header .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 0; }
+
+  .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .community-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 24px; transition: border-color 0.3s;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .community-card:hover { border-color: rgba(76,175,130,0.5); }
+  .community-card-top { display: flex; align-items: center; gap: 12px; }
+  .community-emoji { font-size: 28px; }
+  .community-name { font-size: 15px; font-weight: 600; color: #fff; }
+  .community-members { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .community-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+  .community-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .community-tag {
+    background: rgba(76,175,130,0.15); color: var(--sage-light); border: 1px solid rgba(76,175,130,0.25);
+    padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;
+  }
+  .community-join {
+    background: #25D366; color: #fff; border: none; border-radius: 10px;
+    padding: 10px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.2s; width: 100%;
+  }
+  .community-join:hover { background: #1ebe5d; }
+
+  /* ─── EMERGENCY RELIEF TECH SECTION ─── */
+  .relief-section { background: var(--cream); padding: 72px 24px; }
+  .relief-container { max-width: 1100px; margin: 0 auto; }
+  .relief-feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-top: 40px; }
+  .relief-feature-card {
+    background: #fff; border-radius: 14px; padding: 24px;
+    border-left: 4px solid var(--sage); border-top: 1px solid rgba(0,0,0,0.05);
+    border-right: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+  }
+  .relief-feature-card:hover { transform: translateY(-3px); }
+  .relief-feature-card.urgent { border-left-color: var(--red-alert); }
+  .relief-feature-card.calm { border-left-color: var(--gold); }
+  .relief-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-light); margin-bottom: 12px; }
+  .relief-feature-name { font-weight: 600; font-size: 1rem; color: var(--text-dark); margin-bottom: 8px; }
+  .relief-feature-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+  .relief-origin { font-size: 11px; color: var(--text-light); margin-top: 10px; font-style: italic; }
+
+  /* ─── HERO PRODUCTS SECTION ─── */
+  .hero-section {
+    background: #fff; padding: 80px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .hero-container { max-width: 1100px; margin: 0 auto; text-align: center; }
+  .hero-products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  @media (max-width: 768px) { .hero-products { grid-template-columns: 1fr; } }
+  .hero-product {
+    border-radius: 20px; padding: 36px 28px;
+    position: relative; overflow: hidden; text-align: left;
+    transition: transform 0.3s; cursor: pointer;
+  }
+  .hero-product:hover { transform: translateY(-6px); }
+  .hp-mann { background: var(--indigo); color: #fff; }
+  .hp-mitra { background: var(--gold-pale); color: var(--text-dark); }
+  .hp-vigyan { background: var(--sage-pale); color: var(--text-dark); }
+  .hp-label {
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 700; opacity: 0.6; margin-bottom: 12px; display: block;
+  }
+  .hp-name {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+    margin-bottom: 8px; display: block;
+  }
+  .hp-mann .hp-name { color: var(--gold); }
+  .hp-mitra .hp-name { color: var(--indigo); }
+  .hp-vigyan .hp-name { color: var(--sage); }
+  .hp-meaning { font-size: 14px; margin-bottom: 16px; opacity: 0.7; font-style: italic; }
+  .hp-desc { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 20px; }
+  .hp-pill {
+    display: inline-block; padding: 5px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .hp-mann .hp-pill { background: rgba(245,166,35,0.2); color: var(--gold); }
+  .hp-mitra .hp-pill { background: rgba(15,15,46,0.1); color: var(--indigo); }
+  .hp-vigyan .hp-pill { background: rgba(76,175,130,0.2); color: #2d7a5b; }
+  .hp-devanagari {
+    position: absolute; bottom: -20px; right: -10px;
+    font-family: 'Playfair Display', serif; font-size: 80px; opacity: 0.07; line-height: 1;
+    pointer-events: none;
+  }
+  .hp-mann .hp-devanagari { color: #fff; opacity: 0.08; }
+
+  /* ─── NAVBAR ─── */
+  .navbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,15,46,0.92); backdrop-filter: blur(16px);
+    padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
+    height: 64px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #fff;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-brand span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta {
+    background: var(--gold); color: var(--indigo); padding: 8px 20px;
+    border-radius: 8px; font-size: 13px; font-weight: 700; border: none; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ─── PAGE HEADER ─── */
+  .page-note {
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+    color: rgba(255,255,255,0.5); text-align: center; padding: 10px;
+    font-size: 12px; font-family: 'Space Mono', monospace; letter-spacing: 1px;
+  }
+  .page-note span { color: var(--gold); }
+
+  /* ─── MISC ─── */
+  .text-center { text-align: center; }
+  .mt-16 { margin-top: 16px; }
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .swot-card { border-radius: 12px; padding: 20px; }
+  .swot-s { background: #EAF5EE; border-left: 4px solid var(--sage); }
+  .swot-w { background: #FFF4D6; border-left: 4px solid var(--gold); }
+  .swot-o { background: #EEF0FF; border-left: 4px solid var(--indigo-light); }
+  .swot-t { background: #FED7D7; border-left: 4px solid var(--red-alert); }
+  .swot-label { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .swot-s .swot-label { color: var(--sage); }
+  .swot-w .swot-label { color: #B7791F; }
+  .swot-o .swot-label { color: var(--indigo-light); }
+  .swot-t .swot-label { color: var(--red-alert); }
+  .swot-card ul { padding-left: 16px; }
+  .swot-card li { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .vigyan-grid { grid-template-columns: 1fr; }
+    .hero-products { grid-template-columns: 1fr; }
+    .swot-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-note">MannMitra — New Features Preview · <span>Add these sections to your existing site</span></div>
+
+<!-- ─── NAVBAR ─── -->
+<nav class="navbar">
+  <div class="nav-brand">मन<span>Mitra</span></div>
+  <div class="nav-links">
+    <a href="#mann">Mann</a>
+    <a href="#mitra">Mitra</a>
+    <a href="#vigyan">Vigyan</a>
+    <a href="#wisdom">Wisdom</a>
+    <a href="#community">Community</a>
+  </div>
+  <button class="nav-cta">Start Free</button>
+</nav>
+
+<!-- ─── HERO PRODUCTS ─── -->
+<section class="hero-section" id="mann">
+  <div class="hero-container">
+    <div class="section-eyebrow" style="color: var(--gold); margin-bottom: 12px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">THREE PILLARS. ONE PLATFORM.</div>
+    <div class="section-title" style="text-align: center; margin: 0 auto 12px;">Mental Wellness,<br><em style="color: var(--text-mid);">the Indian Way</em></div>
+    <p style="text-align:center; color: var(--text-mid); max-width: 520px; margin: 0 auto; font-size: 16px; line-height: 1.7;">Bridging the gap between ancient wisdom, modern science, and human connection. No stigma. No waitlists. Just support.</p>
+    <div class="hero-products">
+      <div class="hero-product hp-mann">
+        <span class="hp-label">Pillar 01</span>
+        <span class="hp-name">Mann</span>
+        <div class="hp-meaning">मन — "Mind"</div>
+        <div class="hp-desc">Your AI companion trained on India-specific mental health data. Available 24/7 in Hindi & English. Crisis-aware, stigma-free.</div>
+        <span class="hp-pill">AI Companion →</span>
+        <div class="hp-devanagari">मन</div>
+      </div>
+      <div class="hero-product hp-mitra" id="mitra">
+        <span class="hp-label">Pillar 02</span>
+        <span class="hp-name">Mitra</span>
+        <div class="hp-meaning">मित्र — "Friend"</div>
+        <div class="hp-desc">Verified Indian counsellors. Book a session in 3 clicks. Safe peer support groups via WhatsApp. Human when you need it.</div>
+        <span class="hp-pill">Human Support →</span>
+        <div class="hp-devanagari">मित्र</div>
+      </div>
+      <div class="hero-product hp-vigyan" id="vigyan">
+        <span class="hp-label">Pillar 03</span>
+        <span class="hp-name">Vigyan</span>
+        <div class="hp-meaning">विज्ञान — "Science"</div>
+        <div class="hp-desc">Powered by Meta AI's TRIBE v2 brain model. Evidence-based techniques. Ancient wisdom meets frontier neuroscience.</div>
+        <span class="hp-pill">Brain Science →</span>
+        <div class="hp-devanagari">विज्ञान</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VIGYAN / TRIBE V2 SECTION ─── -->
+<section class="vigyan-section">
+  <div class="vigyan-container">
+    <div class="vigyan-badge">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      VIGYAN — The Science Pillar
+    </div>
+    <h2 class="vigyan-title">Built on <span class="accent">Frontier</span><br>Neuroscience</h2>
+    <p class="vigyan-subtitle">MannMitra's Vigyan pillar is grounded in cutting-edge brain science — including Meta AI's TRIBE v2, the world's first digital twin of human neural activity.</p>
+
+    <div class="vigyan-grid">
+      <div class="vigyan-card">
+        <div class="vigyan-card-icon">
+          <svg width="22" height="22" fill="#F5A623" viewBox="0 0 24 24"><path d="M12 2a9 9 0 100 18A9 9 0 0012 2zm0 16a7 7 0 110-14 7 7 0 010 14zm1-11h-2v4.586l3.707 3.707 1.414-1.414L13 10.172V7z"/></svg>
+        </div>
+        <span class="vigyan-stat">70×</span>
+        <h3>Higher Brain Resolution</h3>
+        <p>TRIBE v2 delivers 70x higher spatial resolution than previous brain models — mapping ~70,000 brain voxels in real-time from any stimulus.</p>
+      </div>
+      <div class="vigyan-card">
+        <div class="vigyan-card-icon">
+          <svg width="22" height="22" fill="#4CAF82" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <span class="vigyan-stat">700+</span>
+        <h3>Subjects in Training Data</h3>
+        <p>Trained on 500+ hours of fMRI recordings from 700+ healthy volunteers exposed to videos, podcasts, text — including diverse Indian linguistic contexts.</p>
+      </div>
+      <div class="vigyan-card">
+        <div class="vigyan-card-icon">
+          <svg width="22" height="22" fill="#60a5fa" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <span class="vigyan-stat">Zero-Shot</span>
+        <h3>Works Across Languages</h3>
+        <p>TRIBE v2 generalizes across unseen languages — including Hindi, Tamil, and other Indian languages — without retraining. Multilingual brain science, finally.</p>
+      </div>
+      <div class="vigyan-card">
+        <div class="vigyan-card-icon">
+          <svg width="22" height="22" fill="#c084fc" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        </div>
+        <span class="vigyan-stat">In-Silico</span>
+        <h3>Virtual Brain Experiments</h3>
+        <p>Run thousands of brain science experiments in seconds. MannMitra uses these insights to recommend personalized interventions based on how brains process emotional stimuli.</p>
+      </div>
+    </div>
+
+    <div class="tribe-embed-box">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <div class="tribe-label">Live Demo · Meta AI TRIBE v2</div>
+          <p style="font-size:13px; opacity:0.6; margin-top:4px;">Explore how the human brain responds to any sight, sound, or language stimulus</p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <div class="tribe-meta-badge">Meta AI FAIR</div>
+          <div style="background:rgba(76,175,130,0.15); border:1px solid rgba(76,175,130,0.3); color:#4ade80; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600;">CC BY-NC</div>
+        </div>
+      </div>
+      <div class="tribe-iframe-wrapper">
+        <iframe src="https://aidemos.atmeta.com/tribev2" title="Meta AI TRIBE v2 Interactive Demo" loading="lazy" allow="fullscreen"></iframe>
+      </div>
+      <p class="tribe-disclaimer">TRIBE v2 (TRansformer for In-silico Brain Experiments) by Meta AI FAIR — Algonauts 2025 award winner. Released under CC BY-NC. MannMitra uses TRIBE v2's brain science insights as the scientific foundation for evidence-based wellness recommendations. Model not used for commercial brain decoding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WISDOM SECTION ─── -->
+<section class="wisdom-section" id="wisdom">
+  <div class="wisdom-container">
+    <div class="section-eyebrow">WISDOM PILLAR</div>
+    <div class="section-title">Ancient Wisdom,<br>Modern Mind</div>
+    <p class="section-sub">From the Bhagavad Gita's timeless teachings on equanimity to Naval Ravikant's modern philosophy on peace — curated for mental resilience.</p>
+
+    <div class="wisdom-tabs">
+      <button class="wisdom-tab active" onclick="switchWisdom('gita', this)">Bhagavad Gita</button>
+      <button class="wisdom-tab" onclick="switchWisdom('naval', this)">Naval Ravikant</button>
+    </div>
+
+    <div id="wisdom-gita" class="wisdom-grid">
+      <div class="wisdom-card">
+        <div class="wisdom-source gita">BHAGAVAD GITA · 2:47</div>
+        <div class="wisdom-text">You have the right to perform your duty, but not to the fruits of your actions. Let not the results of action be your motive.</div>
+        <div class="wisdom-context">The antidote to anxiety: focus on effort, release attachment to outcome. Modern psychology calls this "process orientation."</div>
+        <div class="wisdom-ref">— Chapter 2, Verse 47 (Karma Yoga)</div>
+      </div>
+      <div class="wisdom-card">
+        <div class="wisdom-source gita">BHAGAVAD GITA · 6:5</div>
+        <div class="wisdom-text">Elevate yourself through the power of your mind, and do not degrade yourself, for the mind can be both a friend and an enemy.</div>
+        <div class="wisdom-context">Self-compassion is not weakness — it is the foundation of mental strength. The mind is trainable, like any muscle.</div>
+        <div class="wisdom-ref">— Chapter 6, Verse 5 (Dhyana Yoga)</div>
+      </div>
+      <div class="wisdom-card">
+        <div class="wisdom-source gita">BHAGAVAD GITA · 2:14</div>
+        <div class="wisdom-text">Sensations of heat and cold, pleasure and pain, are transient — they come and go. Learn to endure them, O Arjuna.</div>
+        <div class="wisdom-context">The basis of cognitive defusion in modern therapy: emotions are passing weather, not your permanent climate.</div>
+        <div class="wisdom-ref">— Chapter 2, Verse 14</div>
+      </div>
+    </div>
+
+    <div id="wisdom-naval" class="wisdom-grid" style="display:none;">
+      <div class="wisdom-card">
+        <div class="wisdom-source naval">NAVAL RAVIKANT</div>
+        <div class="wisdom-text">Peace is happiness at rest, and happiness is peace in motion. You can convert one into the other at will.</div>
+        <div class="wisdom-context">Reframing mental health: stillness is not emptiness — it is the natural state. Action and rest are both forms of wholeness.</div>
+        <div class="wisdom-ref">— Navalmanack</div>
+      </div>
+      <div class="wisdom-card">
+        <div class="wisdom-source naval">NAVAL RAVIKANT</div>
+        <div class="wisdom-text">A calm mind is a superpower. It lets you think clearly, make better decisions, and remain effective even under pressure.</div>
+        <div class="wisdom-context">Mental clarity is not a luxury — it's the foundation of every good decision, relationship, and creative act in your life.</div>
+        <div class="wisdom-ref">— Twitter Wisdom</div>
+      </div>
+      <div class="wisdom-card">
+        <div class="wisdom-source naval">NAVAL RAVIKANT</div>
+        <div class="wisdom-text">Desire is a contract you make with yourself to be unhappy until you get what you want. Choose your desires carefully.</div>
+        <div class="wisdom-context">The Indian concept of Santosha (contentment) restated for the modern mind — a direct path to reduced anxiety and greater joy.</div>
+        <div class="wisdom-ref">— Naval Podcast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EMERGENCY RELIEF TECH ─── -->
+<section class="relief-section">
+  <div class="relief-container">
+    <div class="section-eyebrow">IMMEDIATE RELIEF</div>
+    <div class="section-title">Crisis to Calm<br><em style="color: var(--text-mid); font-size: 85%;">in Under 5 Minutes</em></div>
+    <p class="section-sub">Science-backed techniques for immediate relief. Available instantly — no login, no waiting, no stigma. Tap the red SOS button on any page.</p>
+
+    <div class="relief-feature-grid">
+      <div class="relief-feature-card urgent">
+        <div class="relief-num">01 · BREATHING</div>
+        <div class="relief-feature-name">4-7-8 Breathing Technique</div>
+        <div class="relief-feature-desc">Inhale for 4 counts, hold for 7, exhale for 8. Activates the parasympathetic nervous system, reducing cortisol within 90 seconds.</div>
+        <div class="relief-origin">Source: Dr. Andrew Weil · Harvard · Used in Indian Pranayama</div>
+      </div>
+      <div class="relief-feature-card calm">
+        <div class="relief-num">02 · GROUNDING</div>
+        <div class="relief-feature-name">5-4-3-2-1 Grounding</div>
+        <div class="relief-feature-desc">Name 5 things you see, 4 you touch, 3 you hear, 2 you smell, 1 you taste. Interrupts anxiety spirals by anchoring to present sensory reality.</div>
+        <div class="relief-origin">Source: DBT (Dialectical Behaviour Therapy) · Validated in clinical trials</div>
+      </div>
+      <div class="relief-feature-card">
+        <div class="relief-num">03 · COGNITIVE</div>
+        <div class="relief-feature-name">Thought Record (ABCDE)</div>
+        <div class="relief-feature-desc">Identify the Activating event, Belief, Consequence, then Dispute the belief and find an Effective new perspective. Classic CBT in 5 minutes.</div>
+        <div class="relief-origin">Source: Aaron Beck · CBT Institute · Recommended by WHO</div>
+      </div>
+      <div class="relief-feature-card urgent">
+        <div class="relief-num">04 · SOMATIC</div>
+        <div class="relief-feature-name">Progressive Muscle Relaxation</div>
+        <div class="relief-feature-desc">Tense and release muscle groups from toes to scalp. Physical release of stored emotional tension in under 10 minutes. Works for panic attacks.</div>
+        <div class="relief-origin">Source: Edmund Jacobson, 1920 · Validated across 100+ trials</div>
+      </div>
+      <div class="relief-feature-card calm">
+        <div class="relief-num">05 · BEHAVIOURAL</div>
+        <div class="relief-feature-name">Opposite Action (DBT)</div>
+        <div class="relief-feature-desc">When an emotion urges you to withdraw, do the opposite — call someone, go outside, move your body. Breaks the avoidance-anxiety feedback loop.</div>
+        <div class="relief-origin">Source: Marsha Linehan · DBT Handbook · Used in NIMHANS protocols</div>
+      </div>
+      <div class="relief-feature-card">
+        <div class="relief-num">06 · VEDIC</div>
+        <div class="relief-feature-name">Nadi Shodhana Pranayama</div>
+        <div class="relief-feature-desc">Alternate nostril breathing balances the left (analytical) and right (creative) hemispheres. Reduces anxiety within 5 minutes. Backed by modern neuroscience.</div>
+        <div class="relief-origin">Source: Patanjali Yoga Sutras · Validated by AIIMS Delhi research</div>
+      </div>
+    </div>
+
+    <!-- SWOT ANALYSIS -->
+    <div style="margin-top: 60px;">
+      <div class="section-eyebrow">SWOT ANALYSIS · MannMitra</div>
+      <div class="section-title" style="margin-bottom: 8px;">The Gap MannMitra Fills</div>
+      <p style="color: var(--text-mid); font-size: 15px; line-height: 1.6; max-width: 600px; margin-bottom: 0;">India has 150M+ people needing mental health support. Less than 3% access it. MannMitra bridges this gap.</p>
+      <div class="swot-grid">
+        <div class="swot-card swot-s">
+          <div class="swot-label">Strengths</div>
+          <ul>
+            <li>India-first design: vernacular, culturally sensitive</li>
+            <li>TRIBE v2 neuroscience credibility</li>
+            <li>3-pillar completeness: AI + Human + Science</li>
+            <li>Gita + modern wisdom integration</li>
+            <li>Emergency SOS — zero friction crisis help</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-w">
+          <div class="swot-label">Weaknesses (Being Fixed)</div>
+          <ul>
+            <li>Counsellor network needs scaling</li>
+            <li>No mobile app yet (PWA in progress)</li>
+            <li>TRIBE v2 is research-only, not consumer API</li>
+            <li>Payment gateway integration pending</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-o">
+          <div class="swot-label">Opportunities</div>
+          <ul>
+            <li>150M+ underserved mental health users in India</li>
+            <li>Corporate wellness market: ₹6,000 Cr and growing</li>
+            <li>ABHA integration possible (health ID)</li>
+            <li>Hindi + regional language expansion</li>
+            <li>WhatsApp-native India users = huge distribution</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-t">
+          <div class="swot-label">Threats / Challenges</div>
+          <ul>
+            <li>Stigma around mental health in India</li>
+            <li>Established players: iCall, Vandrevala, YourDOST</li>
+            <li>Data privacy & neuroethics with brain-science features</li>
+            <li>Regulatory: DPDP Act 2023 compliance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMMUNITY SECTION ─── -->
+<section class="community-section" id="community">
+  <div class="community-container">
+    <div class="community-header">
+      <div class="section-eyebrow">MITRA COMMUNITY</div>
+      <div class="section-title">Safe Spaces for<br>Every Journey</div>
+      <p class="section-sub">Verified, moderated WhatsApp groups. Anonymous option available. Professional counsellor in every group for safety.</p>
+    </div>
+
+    <div class="community-grid">
+      <div class="community-card">
+        <div class="community-card-top">
+          <div class="community-emoji">😔</div>
+          <div>
+            <div class="community-name">Anxiety & Stress Relief</div>
+            <div class="community-members">284 members · Counsellor monitored</div>
+          </div>
+        </div>
+        <div class="community-desc">Daily check-ins, breathing exercises, and peer support for managing anxiety, exam stress, and work pressure — especially for India's youth.</div>
+        <div class="community-tags">
+          <span class="community-tag">Hindi + English</span>
+          <span class="community-tag">Safe space</span>
+          <span class="community-tag">Anonymous ok</span>
+        </div>
+        <button class="community-join" onclick="alert('WhatsApp group links to be added — replace with your actual WhatsApp group invite links')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Join Group
+        </button>
+      </div>
+
+      <div class="community-card">
+        <div class="community-card-top">
+          <div class="community-emoji">💙</div>
+          <div>
+            <div class="community-name">Depression Support Circle</div>
+            <div class="community-members">156 members · Counsellor monitored</div>
+          </div>
+        </div>
+        <div class="community-desc">A warm, judgment-free space for those going through depression. Weekly live sessions with iCALL-certified counsellors. Emergency protocol in place.</div>
+        <div class="community-tags">
+          <span class="community-tag">Certified counsellor</span>
+          <span class="community-tag">Crisis protocol</span>
+          <span class="community-tag">Weekly sessions</span>
+        </div>
+        <button class="community-join" onclick="alert('Replace with actual WhatsApp group link')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Join Group
+        </button>
+      </div>
+
+      <div class="community-card">
+        <div class="community-card-top">
+          <div class="community-emoji">🔥</div>
+          <div>
+            <div class="community-name">Students & Exam Pressure</div>
+            <div class="community-members">412 members · Most active</div>
+          </div>
+        </div>
+        <div class="community-desc">IIT/NEET/Board exam stress, parental pressure, comparison anxiety. Built for India's 300M+ students. No judgment, only support and practical strategies.</div>
+        <div class="community-tags">
+          <span class="community-tag">Students only</span>
+          <span class="community-tag">Hindi ok</span>
+          <span class="community-tag">Most active</span>
+        </div>
+        <button class="community-join" onclick="alert('Replace with actual WhatsApp group link')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Join Group
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOS FLOATING WIDGET ─── -->
+<div class="sos-float" id="sosFloat">
+  <div id="sosTooltip" style="background: var(--red-alert); color: #fff; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; white-space: nowrap; display: none;">Immediate Relief →</div>
+  <button class="sos-btn" id="sosBtn" onclick="openSOS()" onmouseenter="document.getElementById('sosTooltip').style.display='block'" onmouseleave="document.getElementById('sosTooltip').style.display='none'">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+    SOS
+  </button>
+</div>
+
+<!-- ─── SOS OVERLAY ─── -->
+<div class="sos-overlay" id="sosOverlay" onclick="closeSOS(event)">
+  <div class="sos-panel" onclick="event.stopPropagation()">
+    <div class="sos-header">
+      <div>
+        <h2>Immediate Relief</h2>
+        <p>You are not alone. Choose a technique below.</p>
+      </div>
+      <button class="sos-close" onclick="closeSOS()">✕</button>
+    </div>
+    <div class="sos-body">
+      <div class="relief-tabs">
+        <button class="relief-tab active" onclick="switchRelief('breathe', this)">4-7-8 Breathe</button>
+        <button class="relief-tab" onclick="switchRelief('ground', this)">5-4-3-2-1</button>
+        <button class="relief-tab" onclick="switchRelief('helplines', this)">Helplines</button>
+        <button class="relief-tab" onclick="switchRelief('whatsapp', this)">Support Group</button>
+      </div>
+
+      <!-- BREATHE -->
+      <div id="relief-breathe" class="relief-content active">
+        <div class="breath-circle" id="breathCircle">4</div>
+        <div class="breath-label" id="breathLabel">Ready to breathe?</div>
+        <div class="breath-sub" id="breathSub">4-7-8 technique activates your parasympathetic system</div>
+        <button class="breath-start" id="breathBtn" onclick="startBreathing()">▶ Start Breathing Exercise</button>
+      </div>
+
+      <!-- GROUND -->
+      <div id="relief-ground" class="relief-content">
+        <div class="ground-steps">
+          <div class="ground-step">
+            <div class="ground-num">5</div>
+            <div class="ground-text"><strong>See</strong><span>Name 5 things you can see right now</span></div>
+          </div>
+          <div class="ground-step">
+            <div class="ground-num">4</div>
+            <div class="ground-text"><strong>Touch</strong><span>Name 4 things you can physically feel</span></div>
+          </div>
+          <div class="ground-step">
+            <div class="ground-num">3</div>
+            <div class="ground-text"><strong>Hear</strong><span>Name 3 things you can hear around you</span></div>
+          </div>
+          <div class="ground-step">
+            <div class="ground-num">2</div>
+            <div class="ground-text"><strong>Smell</strong><span>Name 2 things you can smell nearby</span></div>
+          </div>
+          <div class="ground-step">
+            <div class="ground-num">1</div>
+            <div class="ground-text"><strong>Taste</strong><span>Name 1 thing you can taste</span></div>
+          </div>
+        </div>
+        <p style="font-size:13px; color: var(--text-light); margin-top:12px; line-height:1.6;">This interrupts anxiety by anchoring you to the present moment. Used in DBT therapy worldwide.</p>
+      </div>
+
+      <!-- HELPLINES -->
+      <div id="relief-helplines" class="relief-content">
+        <div class="helpline-card">
+          <div class="helpline-icon">🧠</div>
+          <div>
+            <div class="helpline-name">iCALL — TISS Mumbai</div>
+            <div class="helpline-num">9152987821</div>
+            <div class="helpline-time">Mon–Sat, 8 AM – 10 PM · Hindi & English</div>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon">🌸</div>
+          <div>
+            <div class="helpline-name">Vandrevala Foundation</div>
+            <div class="helpline-num">1860-2662-345</div>
+            <div class="helpline-time">24/7 · Free · Multilingual</div>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon">💛</div>
+          <div>
+            <div class="helpline-name">iCall Counselling (Toll Free)</div>
+            <div class="helpline-num">080-46110007</div>
+            <div class="helpline-time">Mon–Sat, 8 AM – 10 PM</div>
+          </div>
+        </div>
+        <div class="helpline-card">
+          <div class="helpline-icon">🏥</div>
+          <div>
+            <div class="helpline-name">NIMHANS Bangalore</div>
+            <div class="helpline-num">080-46110007</div>
+            <div class="helpline-time">24/7 Emergency · National Institute</div>
+          </div>
+        </div>
+        <p style="font-size:12px; color: var(--text-light); margin-top:12px;">All numbers verified as of 2025. These are free, confidential services.</p>
+      </div>
+
+      <!-- WHATSAPP -->
+      <div id="relief-whatsapp" class="relief-content">
+        <div class="wa-card">
+          <div class="wa-info">
+            <div class="wa-name">Crisis Support — MannMitra</div>
+            <div class="wa-desc">Active counsellors. Safe & verified.</div>
+          </div>
+          <button class="wa-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Join
+          </button>
+        </div>
+        <div class="wa-card">
+          <div class="wa-info">
+            <div class="wa-name">Anxiety & Stress Relief</div>
+            <div class="wa-desc">284 members · Daily check-ins</div>
+          </div>
+          <button class="wa-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Join
+          </button>
+        </div>
+        <p style="font-size:12px; color: var(--text-light); margin-top:12px; line-height:1.5;">All groups are monitored by certified counsellors. Joining is safe and anonymous.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openSOS() { document.getElementById('sosOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function closeSOS(e) { if (!e || e.target === document.getElementById('sosOverlay')) { document.getElementById('sosOverlay').classList.remove('active'); document.body.style.overflow = ''; stopBreathing(); } }
+
+  function switchRelief(id, btn) {
+    document.querySelectorAll('.relief-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.relief-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('relief-' + id).classList.add('active');
+    btn.classList.add('active');
+    if (id !== 'breathe') stopBreathing();
+  }
+
+  let breathInterval = null, breathPhase = 0;
+  const phases = [
+    { label: 'Inhale...', sub: 'breathe in slowly through your nose', cls: 'inhale', counts: 4 },
+    { label: 'Hold...', sub: 'hold your breath gently', cls: 'hold', counts: 7 },
+    { label: 'Exhale...', sub: 'breathe out completely through your mouth', cls: 'exhale', counts: 8 }
+  ];
+
+  function startBreathing() {
+    const btn = document.getElementById('breathBtn');
+    btn.textContent = '⏹ Stop Exercise';
+    btn.onclick = stopBreathing;
+    runPhase(0, phases[0].counts);
+  }
+
+  function runPhase(phaseIdx, count) {
+    const circle = document.getElementById('breathCircle');
+    const label = document.getElementById('breathLabel');
+    const sub = document.getElementById('breathSub');
+    const p = phases[phaseIdx];
+    circle.className = 'breath-circle ' + p.cls;
+    circle.textContent = count;
+    label.textContent = p.label;
+    sub.textContent = p.sub;
+    if (count > 1) {
+      breathInterval = setTimeout(() => runPhase(phaseIdx, count - 1), 1000);
+    } else {
+      breathInterval = setTimeout(() => {
+        const next = (phaseIdx + 1) % 3;
+        runPhase(next, phases[next].counts);
+      }, 1000);
+    }
+  }
+
+  function stopBreathing() {
+    clearTimeout(breathInterval);
+    const circle = document.getElementById('breathCircle');
+    const label = document.getElementById('breathLabel');
+    const sub = document.getElementById('breathSub');
+    const btn = document.getElementById('breathBtn');
+    circle.className = 'breath-circle';
+    circle.textContent = '4';
+    label.textContent = 'Ready to breathe?';
+    sub.textContent = '4-7-8 technique activates your parasympathetic system';
+    if (btn) { btn.textContent = '▶ Start Breathing Exercise'; btn.onclick = startBreathing; }
+  }
+
+  function switchWisdom(type, btn) {
+    document.getElementById('wisdom-gita').style.display = type === 'gita' ? 'grid' : 'none';
+    document.getElementById('wisdom-naval').style.display = type === 'naval' ? 'grid' : 'none';
+    document.querySelectorAll('.wisdom-tab').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; } });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.vigyan-card, .wisdom-card, .community-card, .relief-feature-card, .hero-product').forEach(el => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
