@@ -51,4 +51,20 @@ const adminExportLimiter = rateLimit({
   },
 });
 
-module.exports = { chatLimiter, bookLimiter, adminExportLimiter };
+/**
+ * Rate limiter for /api/wisdom — 100 requests per minute per IP.
+ */
+const wisdomLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler(req, res) {
+    logger.warn('Wisdom rate limit exceeded', { ip: req.ip });
+    res.status(429).json({
+      error: 'Too many requests — please slow down and try again in a minute.',
+    });
+  },
+});
+
+module.exports = { chatLimiter, bookLimiter, adminExportLimiter, wisdomLimiter };

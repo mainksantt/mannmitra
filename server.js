@@ -17,6 +17,7 @@ const logger = require('./logger');
 const errorHandler = require('./middleware/errorHandler');
 const apiRouter = require('./routes/api');
 const adminRouter = require('./routes/admin');
+const wisdomRouter = require('./routes/wisdom');
 
 const app = express();
 
@@ -84,6 +85,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Routes ─────────────────────────────────────────────────────────────────────
 app.use('/api', apiRouter);
+app.use('/api/wisdom', wisdomRouter);
 app.use('/admin', adminRouter);
 
 // ── Global error handler ───────────────────────────────────────────────────────
