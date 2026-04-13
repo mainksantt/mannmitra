@@ -3,17 +3,6 @@
 process.env.NODE_ENV = 'test';
 process.env.DATABASE_PATH = ':memory:';
 
-const { sendUserConfirmation, sendAdminNotification, createTransport } = require('../email');
-
-// ── Mock Nodemailer ───────────────────────────────────────────
-jest.mock('nodemailer', () => ({
-  createTransport: jest.fn().mockReturnValue({
-    sendMail: jest.fn().mockResolvedValue({ messageId: 'mock-id' }),
-  }),
-}));
-
-const nodemailer = require('nodemailer');
-
 const mockBooking = {
   id: 'test-123',
   name: 'Priya Sharma',
@@ -25,52 +14,105 @@ const mockBooking = {
   status: 'Pending',
 };
 
-describe('Email — sendUserConfirmation', () => {
-  beforeEach(() => {
-    // Reset EMAIL_USER/PASS to force transporter creation
-    process.env.EMAIL_USER = 'test@gmail.com';
-    process.env.EMAIL_PASS = 'testpassword';
+describe('Email module', () => {
+  let sendMail;
+  let logger;
+  let email;
+  let nodemailer;
+
+  function loadEmailModule({
+    emailUser = 'test@gmail.com',
+    emailPass = 'testpassword',
+    adminEmail = 'admin@example.com',
+    sendMailImpl = async () => ({ messageId: 'mock-id' }),
+  } = {}) {
     jest.resetModules();
+    process.env.EMAIL_USER = emailUser;
+    process.env.EMAIL_PASS = emailPass;
+    process.env.ADMIN_EMAIL = adminEmail;
+
+    sendMail = jest.fn(sendMailImpl);
+    logger = { info: jest.fn(), warn: jest.fn(), error: jest.fn() };
+
+    jest.doMock('nodemailer', () => ({
+      createTransport: jest.fn(() => ({ sendMail })),
+    }));
+    jest.doMock('../logger', () => logger);
+
+    email = require('../email');
+    nodemailer = require('nodemailer');
+  }
+
+  test('createTransport returns null and logs warning when credentials are missing', () => {
+    loadEmailModule({ emailUser: '', emailPass: '' });
+
+    const transport = email.createTransport();
+    expect(transport).toBeNull();
+    expect(logger.warn).toHaveBeenCalledWith('Email credentials not set — using test account stub');
   });
 
-  test('does not throw when called with a valid booking', async () => {
-    await expect(sendUserConfirmation(mockBooking)).resolves.not.toThrow();
+  test('createTransport builds a gmail transport when credentials are present', () => {
+    loadEmailModule({ emailUser: 'mailer@example.com', emailPass: 'secret' });
+
+    email.createTransport();
+    expect(nodemailer.createTransport).toHaveBeenCalledWith({
+      service: 'gmail',
+      auth: {
+        user: 'mailer@example.com',
+        pass: 'secret',
+      },
+    });
   });
 
-  test('does not throw when email credentials are missing', async () => {
-    // createTransport returns null when no credentials
-    const { sendUserConfirmation: sendFn } = require('../email');
-    await expect(sendFn({ ...mockBooking })).resolves.not.toThrow();
+  test('sendUserConfirmation sends mail and includes fallback text for empty message', async () => {
+    loadEmailModule();
+
+    await email.sendUserConfirmation({ ...mockBooking, message: '' });
+
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    expect(sendMail.mock.calls[0][0].to).toBe('priya@example.com');
+    expect(sendMail.mock.calls[0][0].html).toContain('Not provided');
+    expect(logger.info).toHaveBeenCalledWith('User confirmation email sent', { to: 'priya@example.com' });
   });
-});
 
-describe('Email — sendAdminNotification', () => {
-  test('does not throw when called with a valid booking', async () => {
-    await expect(sendAdminNotification(mockBooking)).resolves.not.toThrow();
+  test('sendUserConfirmation logs errors from transporter.sendMail', async () => {
+    loadEmailModule({
+      sendMailImpl: async () => {
+        throw new Error('smtp failure');
+      },
+    });
+
+    await expect(email.sendUserConfirmation(mockBooking)).resolves.toBeUndefined();
+    expect(logger.error).toHaveBeenCalledWith('Failed to send user confirmation email', { error: 'smtp failure' });
   });
-});
 
-describe('Email — createTransport', () => {
-  test('returns null when EMAIL_USER is not set', () => {
-    const savedUser = process.env.EMAIL_USER;
-    const savedPass = process.env.EMAIL_PASS;
-    delete process.env.EMAIL_USER;
-    delete process.env.EMAIL_PASS;
+  test('sendAdminNotification returns early when admin email is not configured', async () => {
+    loadEmailModule({ adminEmail: '' });
 
-    // Re-require to test fresh module state
-    jest.resetModules();
-    const config = require('../config');
-    // Temporarily clear config email
-    const origUser = config.email.user;
-    config.email.user = '';
-    config.email.pass = '';
+    await email.sendAdminNotification(mockBooking);
+    expect(sendMail).not.toHaveBeenCalled();
+  });
 
-    const { createTransport: ct } = require('../email');
-    const result = ct();
-    expect(result).toBeNull();
+  test('sendAdminNotification sends admin mail and includes fallback text for empty message', async () => {
+    loadEmailModule({ adminEmail: 'counsellor@example.com' });
 
-    config.email.user = origUser;
-    process.env.EMAIL_USER = savedUser;
-    process.env.EMAIL_PASS = savedPass;
+    await email.sendAdminNotification({ ...mockBooking, message: '' });
+
+    expect(sendMail).toHaveBeenCalledTimes(1);
+    expect(sendMail.mock.calls[0][0].to).toBe('counsellor@example.com');
+    expect(sendMail.mock.calls[0][0].html).toContain('Not provided');
+    expect(logger.info).toHaveBeenCalledWith('Admin notification email sent', { bookingId: 'test-123' });
+  });
+
+  test('sendAdminNotification logs errors from transporter.sendMail', async () => {
+    loadEmailModule({
+      adminEmail: 'counsellor@example.com',
+      sendMailImpl: async () => {
+        throw new Error('admin smtp failure');
+      },
+    });
+
+    await expect(email.sendAdminNotification(mockBooking)).resolves.toBeUndefined();
+    expect(logger.error).toHaveBeenCalledWith('Failed to send admin notification email', { error: 'admin smtp failure' });
   });
 });

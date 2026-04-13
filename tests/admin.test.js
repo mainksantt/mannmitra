@@ -145,6 +145,15 @@ describe('GET /admin', () => {
     expect(res.status).toBe(302);
     expect(res.headers.location).toContain('/admin/login');
   });
+
+  test('returns dashboard HTML for authenticated user', async () => {
+    const agent = request.agent(app);
+    await loginAsAdmin(agent);
+
+    const res = await agent.get('/admin/');
+    expect(res.status).toBe(200);
+    expect(res.text).toContain('Admin Dashboard');
+  });
 });
 
 // ── GET /admin/api/bookings ───────────────────────────────────────────────────
