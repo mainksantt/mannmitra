@@ -16,6 +16,7 @@ const config = require('./config');
 const { getDb } = require('./database');
 const logger = require('./logger');
 const errorHandler = require('./middleware/errorHandler');
+const { healthLimiter } = require('./middleware/rateLimit');
 const apiRouter = require('./routes/api');
 const adminRouter = require('./routes/admin');
 const wisdomRouter = require('./routes/wisdom');
@@ -85,7 +86,7 @@ app.use((req, _res, next) => {
 });
 
 // ── Health check ────────────────────────────────────────────────────────────────
-app.get('/health', (_req, res) => {
+app.get('/health', healthLimiter, (_req, res) => {
   try {
     getDb().prepare('SELECT 1').get();
     res.status(200).json({ status: 'ok' });

@@ -67,4 +67,20 @@ const wisdomLimiter = rateLimit({
   },
 });
 
-module.exports = { chatLimiter, bookLimiter, adminExportLimiter, wisdomLimiter };
+/**
+ * Rate limiter for /health — 120 requests per minute per IP.
+ */
+const healthLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler(req, res) {
+    logger.warn('Health check rate limit exceeded', { ip: req.ip });
+    res.status(429).json({
+      error: 'Too many requests — please try again shortly.',
+    });
+  },
+});
+
+module.exports = { chatLimiter, bookLimiter, adminExportLimiter, wisdomLimiter, healthLimiter };
