@@ -2,6 +2,48 @@
 
 A lightweight mental health web app built for the Indian audience. MannMitra provides a safe, confidential space to share feelings, detect crises, and connect with human counsellors.
 
+Readme · MDCopyMannMitra — मन की बात, मित्र के साथ
+
+मन (Mann) + मित्र (Mitra) = Mind + Friend
+
+India's most complete mental wellness platform. AI companion, verified counsellors, and neuroscience-backed tools — in Hindi and English. Free. No login. 24×7.
+🔗 Live: https://mannmitra.up.railway.app
+💻 GitHub: https://github.com/mainksantt/mannmitra
+
+Three Pillars
+PillarSanskritPurposeMann 🤖मन — Mind24/7 AI companion, crisis detection, bilingualMitra 🤝मित्र — FriendVerified counsellors + WhatsApp peer groupsVigyan 🔬विज्ञान — ScienceMeta AI TRIBE v2 neuroscience integration
+
+Features
+
+🗣️ Bilingual AI Chat — Hindi + English, crisis-aware
+🚨 SOS Widget — Panic attack tools on every page, no login
+🫁 4-7-8 Breathing — Interactive animated exercise
+✋ 5-4-3-2-1 Grounding — Tap-to-complete sense grounding
+🤲 Touch 5 Things — Physical somatic grounding
+📞 Crisis Helplines — iCALL, Vandrevala, AASRA, NIMHANS
+📖 Bhagavad Gita Wisdom — Daily shlokas with mental health context
+💡 Naval Ravikant Insights — Modern philosophy for resilience
+🔬 TRIBE v2 Demo — Meta AI brain response explorer (Vigyan pillar)
+🤝 Human Counsellors — Book verified Indian counsellors
+🔒 Security-first — CSRF, Helmet, rate limiting, session management
+📊 Admin Dashboard — Manage bookings and sessions
+
+
+Scientific Foundation
+Built on Meta AI's TRIBE v2 — the world's first digital twin of human neural activity.
+
+70× higher brain resolution than previous models
+500+ hours of fMRI data from 700+ subjects
+Zero-shot generalisation to Hindi, Tamil & other Indian languages
+Released under CC BY-NC license
+
+
+Tech Stack
+Backend:   Node.js · Express · SQLite (better-sqlite3)
+Security:  Helmet · CSRF · express-session · rate-limit
+Frontend:  Vanilla JS · HTML5 · CSS3
+Fonts:     Sora · Playfair Display · Space Mono
+Deploy:    Railway (primary) · Render (alternative) 
 ## Features
 
 - **Landing Page** — Clean, minimal design tailored for an Indian audience with warm colours and culturally sensitive language
@@ -47,3 +89,4 @@ The `/api/chat` endpoint detects phrases like *"want to die"*, *"hopeless"*, *"k
 ## Disclaimer
 
 MannMitra is a supportive tool and is **not** a substitute for professional mental health care. In an emergency, please call **112** or visit your nearest hospital.
+
