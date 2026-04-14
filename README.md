@@ -35,7 +35,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - `ADMIN_PASSWORD`
    - `ADMIN_EMAIL`
    - `EMAIL_USER`, `EMAIL_PASS`, and `EMAIL_FROM` (if you want email delivery)
-4. If you need persistent data, attach a Railway volume and set `DATABASE_PATH` to the mounted file path (for example, `/data/mannmitra.db`).
+4. Data is stored in a local SQLite file (`DATABASE_PATH`, default `./mannmitra.db`). Without a Railway volume this file is ephemeral and will reset on deploy, so attach a volume and set `DATABASE_PATH` to the mounted file path (for example, `/data/mannmitra.db`) if you want persistence.
 
 ## Pages
 

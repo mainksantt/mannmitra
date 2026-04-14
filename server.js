@@ -13,6 +13,7 @@ const Csrf = require('csrf');
 const csrf = new Csrf();
 
 const config = require('./config');
+const { getDb } = require('./database');
 const logger = require('./logger');
 const errorHandler = require('./middleware/errorHandler');
 const apiRouter = require('./routes/api');
@@ -67,6 +68,9 @@ app.use(
 
 // ── CSRF protection for admin form submissions ─────────────────────────────────
 app.use(async (req, res, next) => {
+  if (req.path === '/health') {
+    return next();
+  }
   if (!req.session.csrfSecret) {
     req.session.csrfSecret = await csrf.secret();
   }
@@ -78,6 +82,17 @@ app.use(async (req, res, next) => {
 app.use((req, _res, next) => {
   logger.info('Request', { method: req.method, url: req.originalUrl, ip: req.ip });
   next();
+});
+
+// ── Health check ────────────────────────────────────────────────────────────────
+app.get('/health', (_req, res) => {
+  try {
+    getDb().prepare('SELECT 1').get();
+    res.status(200).json({ status: 'ok' });
+  } catch (error) {
+    logger.error('Health check failed', { error: error.message });
+    res.status(500).json({ status: 'error' });
+  }
 });
 
 // ── Static files ───────────────────────────────────────────────────────────────
