@@ -122,17 +122,3 @@ router.get('/api/bookings/export.csv', adminExportLimiter, (req, res, next) => {
 });
 
 module.exports = router;
-{
-  "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "NIXPACKS"
-  },
-  "deploy": {
-    "startCommand": "node server.js",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 60,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 3
-  }
-}
-
