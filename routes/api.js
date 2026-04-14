@@ -15,7 +15,11 @@ const CRISIS_KEYWORDS = [
   'hurt myself', 'self harm', 'self-harm', 'no reason to live',
   'better off dead', 'hopeless', 'worthless', "can't go on", 'cant go on',
   'ending it all', 'give up on life', 'not worth living', 'take my life',
-  'overdose', 'cut myself'
+  'overdose', 'cut myself',
+  // Hindi crisis keywords
+  'khud ko maar', 'jaan dena chahta', 'jaan dena chahti', 'mar jaana chahta',
+  'mar jaana chahti', 'jeena nahi chahta', 'jeena nahi chahti', 'zindagi khatam',
+  'marna chahta', 'marna chahti', 'khud ko nuksan', 'aatmahatya',
 ];
 
 function detectCrisis(text) {
@@ -100,6 +104,48 @@ const RESPONSES = [
     replies: [
       'You\'re always welcome. 🙏 Remember, you\'re never alone. MannMitra is always here whenever you need to talk.',
       'It\'s my pleasure. Taking care of your mental health is so important, and I\'m proud of you for doing that. Take care! 💛'
+    ]
+  },
+  {
+    patterns: ['gita', 'bhagavad', 'krishna', 'shloka', 'geeta', 'gyan'],
+    replies: [
+      'The Bhagavad Gita holds timeless wisdom for life\'s challenges. 🙏 The Gita teaches us: "You have a right to perform your duties, but you are not entitled to the fruits of your actions." This means focus on your effort, not the outcome. Would you like to explore today\'s Gita verse?',
+      'Shri Krishna\'s teachings in the Gita are truly profound. 📖 One of my favourite lessons: "Let a man lift himself by his own self; let him not degrade himself; for the self alone is the friend of oneself." You have the strength within you! Visit our Wisdom page for more Gita guidance.'
+    ]
+  },
+  {
+    patterns: ['naval', 'ravikant', 'wealth', 'specific knowledge', 'leverage', 'happiness skill'],
+    replies: [
+      'Naval Ravikant\'s wisdom is incredibly practical. 💡 He says: "Happiness is a choice and a skill and you can dedicate yourself to learning that skill." Your happiness is something you can actively build — one day at a time.',
+      'Naval teaches us: "A fit body, a calm mind, a house full of love — these things cannot be bought — they must be earned." 🌟 You\'re already on the right path by taking care of your mental health. Visit our Wisdom page for more Naval insights!'
+    ]
+  },
+  {
+    patterns: ['motivation', 'inspire', 'inspire me', 'motivate', 'motivated', 'prerana'],
+    replies: [
+      'Here\'s some wisdom from the Bhagavad Gita: 🌟 "Uddhared ātmanātmānaṁ" — Uplift yourself by your own efforts. You have the power within you. What small step can you take today?',
+      'Naval Ravikant says: "You make your own luck if you stay at it long enough." Keep going — consistency and patience are your greatest allies. What goal are you working towards?'
+    ]
+  },
+  {
+    patterns: ['hindi', 'हिंदी', 'हिन्दी', 'हिंदी में', 'hindi mein'],
+    replies: [
+      'नमस्ते! 🙏 मैं MannMitra हूँ — आपका मानसिक स्वास्थ्य साथी। आप जो भी महसूस कर रहे हैं, उसे बेझिझक शेयर करें। मैं यहाँ सुनने के लिए हूँ।',
+      'नमस्ते! 🌿 MannMitra में आपका स्वागत है। आप हिंदी में बात कर सकते हैं — आपकी हर बात पूरी तरह गोपनीय है। आज आप कैसा महसूस कर रहे हैं?'
+    ]
+  },
+  {
+    patterns: ['pareshan', 'pareshaan', 'tension', 'takleef', 'mushkil', 'problem', 'dikkat'],
+    replies: [
+      'मुझे पता है कि कभी-कभी जिंदगी बहुत कठिन लगती है। 💙 लेकिन याद रखें — "यह भी गुज़र जाएगा।" भगवद गीता कहती है: सुख-दुख आते-जाते रहते हैं, वे अनित्य हैं। आप क्या महसूस कर रहे हैं?',
+      'आपकी परेशानी सुनकर मुझे दुख हुआ। लेकिन आप अकेले नहीं हैं। 🙏 मन की बात करने से बोझ हल्का होता है — बताइए क्या हो रहा है?'
+    ]
+  },
+  {
+    patterns: ['dil', 'mann', 'man', 'dil ki baat', 'dil se', 'dukh', 'dard'],
+    replies: [
+      'दिल की बात सुनना बहुत ज़रूरी है। 💛 MannMitra हमेशा आपके लिए यहाँ है। जो भी दर्द या दुख है — बेझिझक बताएं।',
+      'जब दिल भारी हो, तो किसी से बात करना बहुत मददगार होता है। 🤝 मैं यहाँ हूँ — आप जो महसूस कर रहे हैं वो शेयर करें।'
     ]
   }
 ];

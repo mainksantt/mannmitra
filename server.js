@@ -17,6 +17,7 @@ const logger = require('./logger');
 const errorHandler = require('./middleware/errorHandler');
 const apiRouter = require('./routes/api');
 const adminRouter = require('./routes/admin');
+const wisdomRouter = require('./routes/wisdom');
 
 const app = express();
 
@@ -26,11 +27,11 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://va.vercel-scripts.com'],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
         fontSrc: ["'self'", 'https://fonts.gstatic.com'],
         imgSrc: ["'self'", 'data:'],
-        connectSrc: ["'self'", 'https://vitals.vercel-insights.com'],
+        connectSrc: ["'self'"],
         frameSrc: ["'self'", 'https://aidemos.atmeta.com'],
       },
     },
@@ -86,6 +87,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Routes ─────────────────────────────────────────────────────────────────────
 app.use('/api', apiRouter);
+app.use('/api/wisdom', wisdomRouter);
 app.use('/admin', adminRouter);
 
 // ── Global error handler ───────────────────────────────────────────────────────

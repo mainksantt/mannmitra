@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ज्ञान — MannMitra | Gita &amp; Naval Wisdom</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Daily Bhagavad Gita verse and Naval Ravikant wisdom — curated for your mental wellbeing and personal growth." />
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🌿</span>
+        MannMitra
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="chat.html">AI Chat</a></li>
+        <li><a href="wisdom.html" class="active">Wisdom</a></li>
+        <li><a href="support.html">Get Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="wisdom-hero">
+    <div class="container">
+      <span class="hero-tag">🇮🇳 भारतीय ज्ञान परम्परा</span>
+      <h1>आज का ज्ञान</h1>
+      <p>Timeless wisdom from the Bhagavad Gita and contemporary thought leader Naval Ravikant — to guide your day.</p>
+    </div>
+  </section>
+
+  <!-- Daily Content -->
+  <section class="wisdom-content">
+    <div class="container wisdom-grid">
+
+      <!-- Gita Section -->
+      <div class="wisdom-card gita-card" id="gitaCard">
+        <div class="wisdom-card-header">
+          <div class="wisdom-icon">📖</div>
+          <div>
+            <h2>भगवद्गीता</h2>
+            <p class="wisdom-subtitle">Bhagavad Gita — Daily Verse</p>
+          </div>
+        </div>
+
+        <div id="gitaLoading" class="wisdom-loading">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <p>Loading today's shloka…</p>
+        </div>
+
+        <div id="gitaContent" class="wisdom-body" style="display:none">
+          <div class="verse-meta">
+            <span class="verse-badge" id="gitaBadge">Chapter · Verse</span>
+            <span class="chapter-name" id="gitaChapterName"></span>
+          </div>
+
+          <div class="shloka-block" id="gitaShloka"></div>
+
+          <div class="transliteration" id="gitaTranslit"></div>
+
+          <div class="lang-tabs">
+            <button class="lang-tab active" data-lang="en">English</button>
+            <button class="lang-tab" data-lang="hi">हिंदी</button>
+          </div>
+
+          <p class="meaning-text" id="gitaMeaning"></p>
+
+          <div class="theme-tags" id="gitaTags"></div>
+
+          <button class="btn btn-outline wisdom-refresh-btn" id="gitaRefreshBtn">
+            🔄 Next Verse
+          </button>
+        </div>
+
+        <div id="gitaError" class="wisdom-error" style="display:none">
+          <p>⚠️ Unable to load the verse. Please try again.</p>
+          <button class="btn btn-outline" onclick="loadGitaVerse()">Retry</button>
+        </div>
+      </div>
+
+      <!-- Naval Section -->
+      <div class="wisdom-card naval-card" id="navalCard">
+        <div class="wisdom-card-header">
+          <div class="wisdom-icon">💡</div>
+          <div>
+            <h2>Naval Ravikant</h2>
+            <p class="wisdom-subtitle">Daily Wisdom</p>
+          </div>
+        </div>
+
+        <div id="navalLoading" class="wisdom-loading">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <p>Loading today's wisdom…</p>
+        </div>
+
+        <div id="navalContent" class="wisdom-body" style="display:none">
+          <div class="category-badge-row">
+            <span class="category-badge" id="navalCategory"></span>
+          </div>
+
+          <blockquote class="naval-quote" id="navalQuote"></blockquote>
+
+          <p class="naval-source" id="navalSource"></p>
+
+          <div class="category-filter">
+            <p class="filter-label">Explore by topic:</p>
+            <div class="filter-tags" id="navalFilterTags"></div>
+          </div>
+
+          <button class="btn btn-outline wisdom-refresh-btn" id="navalRefreshBtn">
+            🔄 Another Quote
+          </button>
+        </div>
+
+        <div id="navalError" class="wisdom-error" style="display:none">
+          <p>⚠️ Unable to load wisdom. Please try again.</p>
+          <button class="btn btn-outline" onclick="loadNavalQuote()">Retry</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="wisdom-about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">🕉️</div>
+          <h3>भगवद्गीता के बारे में</h3>
+          <p>
+            The Bhagavad Gita is a 700-verse Hindu scripture that forms part of the Mahabharata.
+            It presents a synthesis of Hindu ideas about dharma, devotion, and liberation.
+            Spoken by Krishna to the warrior Arjuna, its wisdom applies to every aspect of life.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🚀</div>
+          <h3>Naval Ravikant के बारे में</h3>
+          <p>
+            Naval Ravikant is an Indian-American entrepreneur, investor, and philosopher.
+            His ideas on wealth creation, happiness as a skill, and specific knowledge
+            have inspired millions of people around the world to rethink how they live and work.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🧠</div>
+          <h3>Mental Wellness &amp; Wisdom</h3>
+          <p>
+            Ancient and modern wisdom complement each other beautifully.
+            The Gita's message of equanimity and Naval's emphasis on happiness as a skill
+            together provide a practical framework for a meaningful, balanced life.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">🌿 MannMitra</div>
+      <p>Your mental wellness companion — made with ❤️ for India</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="chat.html">AI Chat</a>
+        <a href="wisdom.html">Wisdom</a>
+        <a href="support.html">Get Support</a>
+      </div>
+      <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">
+        Disclaimer: MannMitra is a supportive tool and is not a substitute for professional mental health care.
+        If you are in an emergency, please call 112 or visit your nearest hospital.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // ── State ────────────────────────────────────────────────────────────────
+    let currentGitaVerse = null;
+    let currentNavalQuote = null;
+    let gitaLang = 'en';
+    let verseIndex = 0;
+
+    // ── Load Gita verse ───────────────────────────────────────────────────────
+    async function loadGitaVerse() {
+      showEl('gitaLoading');
+      hideEl('gitaContent');
+      hideEl('gitaError');
+
+      try {
+        const res = await fetch('/api/wisdom/gita/daily');
+        if (!res.ok) throw new Error('API error');
+        const { data } = await res.json();
+        currentGitaVerse = data;
+        renderGitaVerse(data);
+        showEl('gitaContent');
+        hideEl('gitaLoading');
+      } catch {
+        hideEl('gitaLoading');
+        showEl('gitaError');
+      }
+    }
+
+    function renderGitaVerse(v) {
+      document.getElementById('gitaBadge').textContent =
+        `Chapter ${v.chapter}, Verse ${v.verse}`;
+      document.getElementById('gitaChapterName').textContent = v.chapter_name;
+      document.getElementById('gitaShloka').textContent = v.shloka;
+      document.getElementById('gitaTranslit').textContent = v.transliteration;
+      renderGitaMeaning();
+      renderGitaTags(v.theme);
+    }
+
+    function renderGitaMeaning() {
+      if (!currentGitaVerse) return;
+      document.getElementById('gitaMeaning').textContent =
+        gitaLang === 'hi' ? currentGitaVerse.meaning_hi : currentGitaVerse.meaning_en;
+    }
+
+    function renderGitaTags(tags) {
+      const container = document.getElementById('gitaTags');
+      container.innerHTML = tags
+        .map(t => `<span class="theme-tag">${t}</span>`)
+        .join('');
+    }
+
+    // ── Language tab toggle ───────────────────────────────────────────────────
+    document.querySelectorAll('.lang-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        gitaLang = btn.dataset.lang;
+        renderGitaMeaning();
+      });
+    });
+
+    // ── Refresh button ────────────────────────────────────────────────────────
+    document.getElementById('gitaRefreshBtn').addEventListener('click', () => {
+      loadNextGitaVerse();
+    });
+
+    // ── Cycle through all verses sequentially ─────────────────────────────────
+    async function loadNextGitaVerse() {
+      showEl('gitaLoading');
+      hideEl('gitaContent');
+      hideEl('gitaError');
+      try {
+        const res = await fetch('/api/wisdom/gita/verses');
+        if (!res.ok) throw new Error();
+        const { data } = await res.json();
+        verseIndex = (verseIndex + 1) % data.length;
+        currentGitaVerse = data[verseIndex];
+        renderGitaVerse(currentGitaVerse);
+        showEl('gitaContent');
+        hideEl('gitaLoading');
+      } catch {
+        hideEl('gitaLoading');
+        showEl('gitaError');
+      }
+    }
+
+    // ── Load Naval quote ──────────────────────────────────────────────────────
+    async function loadNavalQuote(category = null) {
+      showEl('navalLoading');
+      hideEl('navalContent');
+      hideEl('navalError');
+
+      try {
+        const url = category
+          ? `/api/wisdom/naval/category/${encodeURIComponent(category)}`
+          : '/api/wisdom/naval/daily';
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('API error');
+        const json = await res.json();
+        // category endpoint returns an array; pick a random one
+        const data = Array.isArray(json.data)
+          ? json.data[Math.floor(Math.random() * json.data.length)]
+          : json.data;
+        currentNavalQuote = data;
+        renderNavalQuote(data);
+        showEl('navalContent');
+        hideEl('navalLoading');
+      } catch {
+        hideEl('navalLoading');
+        showEl('navalError');
+      }
+    }
+
+    function renderNavalQuote(q) {
+      document.getElementById('navalCategory').textContent = capitalize(q.category);
+      document.getElementById('navalQuote').textContent = `"${q.quote}"`;
+      document.getElementById('navalSource').textContent = `— ${q.source}`;
+    }
+
+    // ── Category filter buttons ───────────────────────────────────────────────
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/wisdom/naval/categories');
+        const { data } = await res.json();
+        const container = document.getElementById('navalFilterTags');
+        container.innerHTML = data
+          .map(c => `<button class="filter-tag" data-cat="${c}">${capitalize(c)}</button>`)
+          .join('');
+        container.querySelectorAll('.filter-tag').forEach(btn => {
+          btn.addEventListener('click', () => {
+            container.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadNavalQuote(btn.dataset.cat);
+          });
+        });
+      } catch { /* ignore */ }
+    }
+
+    document.getElementById('navalRefreshBtn').addEventListener('click', async () => {
+      showEl('navalLoading');
+      hideEl('navalContent');
+      hideEl('navalError');
+      try {
+        const res = await fetch('/api/wisdom/naval/random');
+        if (!res.ok) throw new Error();
+        const { data } = await res.json();
+        currentNavalQuote = data;
+        renderNavalQuote(data);
+        showEl('navalContent');
+        hideEl('navalLoading');
+        // clear active filter
+        document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+      } catch {
+        hideEl('navalLoading');
+        showEl('navalError');
+      }
+    });
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function showEl(id) { document.getElementById(id).style.display = ''; }
+    function hideEl(id) { document.getElementById(id).style.display = 'none'; }
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' '); }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    loadGitaVerse();
+    loadNavalQuote();
+    loadCategories();
+  </script>
+
+</body>
+</html>
