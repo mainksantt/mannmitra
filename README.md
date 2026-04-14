@@ -25,6 +25,13 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Deploying to Railway
+
+1. Create a new Railway project and connect this repository.
+2. Railway will use `railway.json` and run `npm start`.
+3. Set the environment variables from `.env.example` in Railway (at minimum: `NODE_ENV=production`, `SESSION_SECRET`, `ADMIN_PASSWORD`, and email settings if you want email delivery).
+4. If you need persistent data, attach a Railway volume and set `DATABASE_PATH` to the mounted file path (for example, `/data/mannmitra.db`).
+
 ## Pages
 
 | Page | URL | Description |
