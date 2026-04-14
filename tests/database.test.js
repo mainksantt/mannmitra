@@ -99,3 +99,10 @@ describe('Database — bookingExistsByEmail', () => {
     expect(bookingExistsByEmail('no-such@example.com')).toBe(false);
   });
 });
+
+describe('Database — closeDb', () => {
+  test('does not throw when already closed', () => {
+    closeDb();
+    expect(() => closeDb()).not.toThrow();
+  });
+});
