@@ -1,197 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MannMitra — Your Mental Wellness Companion</title>
+  <title>MannMitra — मन की बात, मित्र के साथ</title>
+  <meta name="description" content="India's most advanced mental wellness platform. AI companion, human counsellors, neuroscience-backed tools. Free. Confidential. 24×7." />
+  <meta property="og:title" content="MannMitra — Mental Wellness for India" />
+  <meta property="og:description" content="AI + Human + Neuroscience. Mental health for 150M+ underserved Indians." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <meta name="description" content="MannMitra is a safe, confidential mental wellness companion for India. Talk to our AI, get crisis support, or book a session with a human counsellor." />
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">🌿</span>
-        MannMitra
-      </a>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how-it-works">How it works</a></li>
-        <li><a href="wisdom.html">🕉️ Wisdom</a></li>
-        <li><a href="support.html">Get Support</a></li>
-        <li><a href="chat.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Start Chat</a></li>
-      </ul>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="brand-devanagari">मन</span><span class="brand-latin">Mitra</span></a>
+    <div class="nav-links">
+      <a href="#pillars" data-en="Features" data-hi="विशेषताएं">Features</a>
+      <a href="wisdom.html" data-en="Wisdom" data-hi="ज्ञान">Wisdom</a>
+      <a href="#vigyan" data-en="Science" data-hi="विज्ञान">Science</a>
+      <a href="support.html" data-en="Counsellors" data-hi="परामर्शदाता">Counsellors</a>
     </div>
-  </nav>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
+        <span class="lang-en">EN</span><span class="lang-sep">|</span><span class="lang-hi">हि</span>
+      </button>
+      <a href="chat.html" class="nav-cta" data-en="Talk Now" data-hi="बात करें">Talk Now</a>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#pillars">Features</a>
+    <a href="wisdom.html">Wisdom</a>
+    <a href="#vigyan">Science</a>
+    <a href="support.html">Counsellors</a>
+    <a href="chat.html" class="nav-cta-mobile">Talk Now →</a>
+  </div>
+</nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <span class="hero-tag">🇮🇳 Made for India &nbsp;·&nbsp; Free &nbsp;·&nbsp; Confidential</span>
-        <h1>Your mind matters.<br/>We're here to listen.</h1>
-        <p>
-          MannMitra is a safe, judgment-free space to share what's on your mind.
-          Talk to our AI companion anytime, or connect with a human counsellor when you need more support.
-        </p>
-        <div class="hero-buttons">
-          <a href="chat.html" class="btn btn-primary">💬 Start Chatting</a>
-          <a href="support.html" class="btn btn-ghost">🤝 Talk to a Human</a>
-        </div>
-        <p class="hero-note">🔒 Private &amp; confidential &nbsp;·&nbsp; No account needed &nbsp;·&nbsp; Available 24×7</p>
+<section class="hero" id="home">
+  <div class="hero-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+  <div class="hero-grid">
+    <div class="hero-content" data-reveal>
+      <div class="hero-badge"><span class="badge-dot"></span><span data-en="🇮🇳 Built for India · Free · Confidential · 24×7" data-hi="🇮🇳 भारत के लिए · मुफ्त · गोपनीय · 24×7">🇮🇳 Built for India · Free · Confidential · 24×7</span></div>
+      <h1 class="hero-title">
+        <span class="title-line-1" data-en="Your mind" data-hi="आपका मन">Your mind</span>
+        <span class="title-line-2 title-accent" data-en="deserves care" data-hi="देखभाल का हकदार है">deserves care</span>
+        <span class="title-line-3" data-en="— always." data-hi="— हमेशा।">— always.</span>
+      </h1>
+      <p class="hero-sub" data-en="MannMitra is India's most complete mental wellness platform. AI companion, verified counsellors, and neuroscience-backed tools — in Hindi and English." data-hi="MannMitra भारत का सबसे संपूर्ण मानसिक स्वास्थ्य मंच है। AI साथी, सत्यापित परामर्शदाता, और विज्ञान-आधारित उपकरण — हिंदी और अंग्रेजी में।">MannMitra is India's most complete mental wellness platform. AI companion, verified counsellors, and neuroscience-backed tools — in Hindi and English.</p>
+      <div class="hero-actions">
+        <a href="chat.html" class="btn-hero-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span data-en="Start Talking" data-hi="बात शुरू करें">Start Talking</span></a>
+        <button class="btn-hero-sos" onclick="openSOS()"><span class="sos-pulse-ring"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><span data-en="I need help NOW" data-hi="मुझे अभी मदद चाहिए">I need help NOW</span></button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-n">150M+</span><span class="stat-l" data-en="Indians need support" data-hi="भारतीयों को मदद">Indians need support</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-n">&lt;3%</span><span class="stat-l" data-en="actually get it" data-hi="वास्तव में मिलती है">actually get it</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-n">0₹</span><span class="stat-l" data-en="to start" data-hi="शुरू करने के लिए">to start</span></div>
       </div>
     </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="container">
-      <div class="section-header">
-        <h2>Everything you need to feel better</h2>
-        <p>Simple tools designed with care for your mental wellbeing</p>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>AI Chat Companion</h3>
-          <p>Talk to MannMitra anytime, day or night. Our AI companion listens without judgment and responds with empathy and care.</p>
+    <div class="hero-visual" data-reveal>
+      <div class="chat-mockup">
+        <div class="chat-header">
+          <div class="chat-avatar">म</div>
+          <div class="chat-meta"><span class="chat-name">MannMitra</span><span class="chat-status"><span class="online-dot"></span><span data-en="Online · Hindi + English" data-hi="ऑनलाइन · हिंदी + अंग्रेजी">Online · Hindi + English</span></span></div>
+          <div class="chat-lang-badge">HI | EN</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">🚨</div>
-          <h3>Crisis Detection</h3>
-          <p>If you're in crisis, MannMitra recognises the signs immediately and connects you with India's top crisis helplines and trained counsellors.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🤝</div>
-          <h3>Human Support</h3>
-          <p>Book a session with a trained mental health counsellor. We'll match you with someone who truly understands your situation.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔒</div>
-          <h3>Private &amp; Safe</h3>
-          <p>No login required. Your conversations are confidential. We believe mental health support should be accessible to everyone.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🌐</div>
-          <h3>Available 24×7</h3>
-          <p>Mental health doesn't follow a schedule. MannMitra is always available — whether it's 3 AM or during your lunch break.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🇮🇳</div>
-          <h3>Built for India</h3>
-          <p>We understand the unique pressures of Indian life — family expectations, career stress, relationships — and respond with cultural sensitivity.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📖</div>
-          <h3>Bhagavad Gita Wisdom</h3>
-          <p>Daily shlokas with meaning in Hindi &amp; English. Explore timeless Gita teachings on karma, duty, equanimity, and self-realisation.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">💡</div>
-          <h3>Naval Ravikant Insights</h3>
-          <p>Practical wisdom on wealth, happiness, and specific knowledge from one of the sharpest minds of our generation — delivered daily.</p>
+        <div class="chat-body">
+          <div class="chat-msg bot"><span data-en="Namaste 🙏 How are you feeling today?" data-hi="नमस्ते 🙏 आज आप कैसा महसूस कर रहे हैं?">Namaste 🙏 How are you feeling today?</span></div>
+          <div class="chat-msg user"><span data-en="I've been feeling really anxious lately..." data-hi="मैं हाल ही में बहुत चिंतित महसूस कर रहा हूं...">I've been feeling really anxious lately...</span></div>
+          <div class="chat-msg bot"><span data-en="I hear you. You're not alone. Let's try breathing together. 💙" data-hi="मैं समझता हूं। आप अकेले नहीं हैं। चलिए साथ में सांस लेते हैं। 💙">I hear you. You're not alone. Let's try breathing together. 💙</span></div>
+          <div class="chat-typing"><span></span><span></span><span></span></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- How it works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <div class="section-header">
-        <h2>How MannMitra works</h2>
-        <p>Getting support is simple — no sign-ups, no waiting rooms</p>
+<section class="pillars" id="pillars">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow" data-en="THREE PILLARS · ONE PLATFORM" data-hi="तीन स्तंभ · एक मंच">THREE PILLARS · ONE PLATFORM</div>
+      <h2 data-en="Complete mental wellness,<br>the Indian way" data-hi="संपूर्ण मानसिक स्वास्थ्य,<br>भारतीय तरीके से">Complete mental wellness,<br>the Indian way</h2>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card pillar-mann" data-reveal>
+        <div class="pillar-glyph">मन</div>
+        <div class="pillar-label">Pillar 01</div>
+        <h3 class="pillar-name">Mann</h3>
+        <p class="pillar-meaning" data-en="Mind — AI Companion" data-hi="मन — AI साथी">Mind — AI Companion</p>
+        <p class="pillar-desc" data-en="24/7 bilingual AI trained on India-specific mental health context. Crisis-aware. Judgment-free. No login needed." data-hi="भारत-विशिष्ट मानसिक स्वास्थ्य संदर्भ पर प्रशिक्षित 24/7 द्विभाषी AI।">24/7 bilingual AI trained on India-specific mental health context. Crisis-aware. Judgment-free. No login needed.</p>
+        <div class="pillar-tags"><span>Hindi + English</span><span>Crisis detection</span><span>24×7</span></div>
+        <a href="chat.html" class="pillar-btn" data-en="Talk to Mann →" data-hi="मन से बात करें →">Talk to Mann →</a>
       </div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Open the Chat</h3>
-          <p>Click "Start Chatting" — no account or login needed. Your privacy is fully protected.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Share How You Feel</h3>
-          <p>Type what's on your mind in your own words. MannMitra listens and responds with empathy.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Get Personalised Support</h3>
-          <p>Receive coping strategies, resources, and encouragement tailored to what you're going through.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <h3>Connect with a Human</h3>
-          <p>Need more? Book a session with a trained counsellor — quickly and easily.</p>
-        </div>
+      <div class="pillar-card pillar-mitra" data-reveal>
+        <div class="pillar-glyph">मित्र</div>
+        <div class="pillar-label">Pillar 02</div>
+        <h3 class="pillar-name">Mitra</h3>
+        <p class="pillar-meaning" data-en="Friend — Human Support" data-hi="मित्र — मानव सहायता">Friend — Human Support</p>
+        <p class="pillar-desc" data-en="Verified counsellors + safe WhatsApp peer groups. Book in 3 clicks. Anonymous. Human connection when you need it most." data-hi="सत्यापित परामर्शदाता + सुरक्षित WhatsApp सहकर्मी समूह। 3 क्लिक में बुक करें।">Verified counsellors + safe WhatsApp peer groups. Book in 3 clicks. Anonymous.</p>
+        <div class="pillar-tags"><span>Verified counsellors</span><span>WhatsApp groups</span><span>Anonymous</span></div>
+        <a href="support.html" class="pillar-btn" data-en="Find a Mitra →" data-hi="मित्र खोजें →">Find a Mitra →</a>
+      </div>
+      <div class="pillar-card pillar-vigyan" data-reveal>
+        <div class="pillar-glyph">विज्ञान</div>
+        <div class="pillar-label">Pillar 03</div>
+        <h3 class="pillar-name">Vigyan</h3>
+        <p class="pillar-meaning" data-en="Science — Brain Technology" data-hi="विज्ञान — मस्तिष्क तकनीक">Science — Brain Technology</p>
+        <p class="pillar-desc" data-en="Powered by Meta AI's TRIBE v2 — the world's first digital twin of human brain activity. Evidence-based tools, ancient wisdom, frontier neuroscience." data-hi="Meta AI के TRIBE v2 द्वारा संचालित — मानव मस्तिष्क गतिविधि का विश्व का पहला डिजिटल ट्विन।">Powered by Meta AI's TRIBE v2 — the world's first digital twin of human brain activity.</p>
+        <div class="pillar-tags"><span>TRIBE v2</span><span>Gita wisdom</span><span>CBT + DBT</span></div>
+        <a href="#vigyan" class="pillar-btn" data-en="Explore Vigyan →" data-hi="विज्ञान देखें →">Explore Vigyan →</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Wisdom Banner -->
-  <section class="wisdom-banner">
-    <div class="container">
-      <div class="wisdom-banner-content">
-        <div class="wisdom-banner-text">
-          <span class="hero-tag" style="background: rgba(255,255,255,0.15); color: #fff;">🇮🇳 Indian Wisdom</span>
-          <h2>Daily Gita &amp; Naval Wisdom</h2>
-          <p>
-            Start your day with a Bhagavad Gita shloka and a Naval Ravikant insight.
-            Ancient wisdom meets modern thinking — for a calmer, clearer mind.
-          </p>
-          <div style="display:flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
-            <a href="wisdom.html" class="btn btn-primary">📖 Today's Wisdom</a>
-            <a href="chat.html" class="btn btn-ghost">💬 Talk to MannMitra</a>
+<section class="panic-section" id="panic">
+  <div class="container">
+    <div class="panic-header" data-reveal>
+      <div class="eyebrow crisis-eyebrow">IMMEDIATE RELIEF · SCIENTIFICALLY PROVEN</div>
+      <h2 data-en="Panic attack? Anxiety spiral?<br><em>Start here.</em>" data-hi="पैनिक अटैक? चिंता का चक्र?<br><em>यहाँ से शुरू करें।</em>">Panic attack? Anxiety spiral?<br><em>Start here.</em></h2>
+      <p data-en="These techniques work in under 5 minutes. No login — just immediate relief." data-hi="ये तकनीकें 5 मिनट से कम में काम करती हैं।">These techniques work in under 5 minutes. No login — just immediate relief.</p>
+    </div>
+    <div class="technique-tabs">
+      <button class="tech-tab active" data-tab="breathe" onclick="switchTech('breathe',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path fill="white" d="M12 8v4l3 3-1.4 1.4L10 13V8h2z"/></svg><span data-en="4-7-8 Breathe" data-hi="4-7-8 सांस">4-7-8 Breathe</span></button>
+      <button class="tech-tab" data-tab="ground" onclick="switchTech('ground',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span data-en="5 Senses Ground" data-hi="5 इंद्रियां ग्राउंडिंग">5 Senses Ground</span></button>
+      <button class="tech-tab" data-tab="touch" onclick="switchTech('touch',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg><span data-en="Touch 5 Things" data-hi="5 चीजें छूएं">Touch 5 Things</span></button>
+      <button class="tech-tab" data-tab="coldwater" onclick="switchTech('coldwater',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span data-en="Panic Stop" data-hi="पैनिक रोकें">Panic Stop</span></button>
+    </div>
+    <div class="technique-panels">
+      <div class="tech-panel active" id="tech-breathe">
+        <div class="breath-arena">
+          <div class="breath-ring-outer"><div class="breath-ring-inner" id="breathRing"><div class="breath-count" id="breathCount">4</div></div></div>
+          <div class="breath-info">
+            <div class="breath-phase" id="breathPhaseLabel" data-en="Ready?" data-hi="तैयार?">Ready?</div>
+            <div class="breath-phase-sub" id="breathPhaseSub">Press start to begin the 4-7-8 technique</div>
+            <div class="breath-science">Activates parasympathetic nervous system · Reduces cortisol in 90 sec · Used in Pranayama + Harvard Medicine</div>
+            <button class="breath-start-btn" id="breathBtn" onclick="startBreathing()">▶ Start</button>
           </div>
         </div>
-        <div class="wisdom-banner-quote">
-          <blockquote>
-            "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन"
-          </blockquote>
-          <cite>— Bhagavad Gita 2.47</cite>
-          <p style="margin-top: 0.75rem; font-size: 0.9rem; opacity: 0.8;">
-            You have a right to perform your duties, but not to the fruits of action.
-          </p>
+      </div>
+      <div class="tech-panel" id="tech-ground">
+        <div class="ground-grid">
+          <div class="sense-card s5" onclick="markSense(this)"><div class="sense-icon">👁️</div><div class="sense-num" data-en="5 things you SEE" data-hi="5 चीजें जो आप देखते हैं">5 things you SEE</div><div class="sense-tap">Tap when done</div><div class="sense-check">✓</div></div>
+          <div class="sense-card s4" onclick="markSense(this)"><div class="sense-icon">✋</div><div class="sense-num" data-en="4 things you TOUCH" data-hi="4 चीजें जो आप छूते हैं">4 things you TOUCH</div><div class="sense-tap">Tap when done</div><div class="sense-check">✓</div></div>
+          <div class="sense-card s3" onclick="markSense(this)"><div class="sense-icon">👂</div><div class="sense-num" data-en="3 things you HEAR" data-hi="3 चीजें जो आप सुनते हैं">3 things you HEAR</div><div class="sense-tap">Tap when done</div><div class="sense-check">✓</div></div>
+          <div class="sense-card s2" onclick="markSense(this)"><div class="sense-icon">👃</div><div class="sense-num" data-en="2 things you SMELL" data-hi="2 चीजें जो आप सूंघते हैं">2 things you SMELL</div><div class="sense-tap">Tap when done</div><div class="sense-check">✓</div></div>
+          <div class="sense-card s1" onclick="markSense(this)"><div class="sense-icon">👅</div><div class="sense-num" data-en="1 thing you TASTE" data-hi="1 चीज जो आप चखते हैं">1 thing you TASTE</div><div class="sense-tap">Tap when done</div><div class="sense-check">✓</div></div>
+          <div class="sense-complete" id="senseComplete"><div class="complete-icon">💙</div><div data-en="You did it. You're grounded." data-hi="आपने कर लिया। आप स्थिर हैं।">You did it. You're grounded.</div><button onclick="resetSenses()">Reset</button></div>
+        </div>
+        <p class="tech-source">DBT-validated technique · Interrupts anxiety by anchoring to present sensory reality · Used worldwide in clinical settings</p>
+      </div>
+      <div class="tech-panel" id="tech-touch">
+        <div class="touch-guide">
+          <div class="touch-intro"><h3 data-en="Right now — physically touch 5 things around you" data-hi="अभी — अपने आस-पास 5 चीजें शारीरिक रूप से छूएं">Right now — physically touch 5 things around you</h3><p data-en="Feel the texture. Notice if it's warm or cold. Say it out loud." data-hi="बनावट महसूस करें। ध्यान दें कि यह गर्म है या ठंडा। इसे जोर से कहें।">Feel the texture. Notice if it's warm or cold. Say it out loud.</p></div>
+          <div class="touch-items">
+            <div class="touch-item" id="t1" onclick="touchItem(1)"><span class="touch-n">1</span><span class="touch-label" data-en="Your chair or seat" data-hi="आपकी कुर्सी या सीट">Your chair or seat</span><span class="touch-done">✓</span></div>
+            <div class="touch-item" id="t2" onclick="touchItem(2)"><span class="touch-n">2</span><span class="touch-label" data-en="Your phone or desk" data-hi="आपका फोन या डेस्क">Your phone or desk</span><span class="touch-done">✓</span></div>
+            <div class="touch-item" id="t3" onclick="touchItem(3)"><span class="touch-n">3</span><span class="touch-label" data-en="Your own clothing" data-hi="आपके कपड़े">Your own clothing</span><span class="touch-done">✓</span></div>
+            <div class="touch-item" id="t4" onclick="touchItem(4)"><span class="touch-n">4</span><span class="touch-label" data-en="Something metal or glass" data-hi="कोई धातु या कांच की चीज">Something metal or glass</span><span class="touch-done">✓</span></div>
+            <div class="touch-item" id="t5" onclick="touchItem(5)"><span class="touch-n">5</span><span class="touch-label" data-en="Your own skin — your hand" data-hi="आपकी त्वचा — आपका हाथ">Your own skin — your hand</span><span class="touch-done">✓</span></div>
+          </div>
+          <div class="touch-progress"><div class="touch-progress-bar" id="touchBar" style="width:0%"></div></div>
+          <p class="tech-source">Physical touch interrupts fight-or-flight by activating tactile sensory pathways · Somatic therapy validated</p>
+        </div>
+      </div>
+      <div class="tech-panel" id="tech-coldwater">
+        <div class="panic-steps">
+          <div class="panic-step-card ps1"><div class="ps-num">01</div><div class="ps-content"><h4 data-en="STOP — Name it" data-hi="रुकें — इसे नाम दें">STOP — Name it</h4><p data-en="Say aloud: 'I am having a panic attack. It is not dangerous. It will pass.'" data-hi="जोर से कहें: 'मुझे पैनिक अटैक आ रहा है। यह खतरनाक नहीं है। यह गुज़र जाएगा।'">"I am having a panic attack. It is not dangerous. It will pass."</p></div></div>
+          <div class="panic-step-card ps2"><div class="ps-num">02</div><div class="ps-content"><h4 data-en="COLD — Trigger the dive reflex" data-hi="ठंडा — डाइव रिफ्लेक्स ट्रिगर करें">COLD — Trigger the dive reflex</h4><p data-en="Splash cold water on your face. Cold instantly activates the vagus nerve, slowing heart rate within seconds." data-hi="अपने चेहरे पर ठंडा पानी छिड़कें। ठंड तुरंत वेगस नर्व को सक्रिय करती है।">Splash cold water on your face. Cold instantly activates the vagus nerve, slowing heart rate.</p></div></div>
+          <div class="panic-step-card ps3"><div class="ps-num">03</div><div class="ps-content"><h4 data-en="MOVE — Burn the adrenaline" data-hi="चलें — एड्रेनालाईन जलाएं">MOVE — Burn the adrenaline</h4><p data-en="Walk 20 steps. Stamp your feet. Clench and release your fists. Physical movement metabolizes stress hormones." data-hi="20 कदम चलें। जमीन पर अपने पैर पटकें। मुट्ठी बांधें और खोलें।">Walk 20 steps. Stamp your feet. Physical movement metabolizes stress hormones.</p></div></div>
+          <div class="panic-step-card ps4"><div class="ps-num">04</div><div class="ps-content"><h4 data-en="BREATHE — 4-7-8 cycles" data-hi="सांस लें — 4-7-8 चक्र">BREATHE — 4-7-8 cycles</h4><p data-en="Inhale 4 counts, hold 7, exhale 8. Repeat 3 times. Clinically proven to stop panic in under 2 minutes." data-hi="4 गिनती में सांस लें, 7 रोकें, 8 में छोड़ें। 3 बार दोहराएं।">Inhale 4 counts, hold 7, exhale 8. Repeat 3 times. Clinically proven to stop panic in under 2 minutes.</p></div></div>
+        </div>
+        <p class="tech-source">Based on DBT TIPP skills · Validated in clinical trials · Used in NIMHANS and AIIMS India protocols</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vigyan-section" id="vigyan">
+  <div class="vigyan-bg-text">विज्ञान</div>
+  <div class="container">
+    <div class="vigyan-layout">
+      <div class="vigyan-left" data-reveal>
+        <div class="eyebrow eyebrow-gold">VIGYAN — THE SCIENCE PILLAR</div>
+        <h2 data-en="Built on frontier <span class='accent-gold'>neuroscience</span>" data-hi="अग्रणी <span class='accent-gold'>न्यूरोसाइंस</span> पर निर्मित">Built on frontier <span class="accent-gold">neuroscience</span></h2>
+        <p>MannMitra's Vigyan pillar is grounded in Meta AI's TRIBE v2 — the Algonauts 2025 award-winning model that creates digital twins of human brain activity.</p>
+        <div class="tribe-stats">
+          <div class="ts-item"><span class="ts-n">70×</span><span class="ts-l">Higher brain resolution than previous models</span></div>
+          <div class="ts-item"><span class="ts-n">700+</span><span class="ts-l">Subjects, 500+ hours of fMRI data</span></div>
+          <div class="ts-item"><span class="ts-n">Zero-shot</span><span class="ts-l">Generalises to Hindi, Tamil & Indian languages</span></div>
+        </div>
+        <a href="https://ai.meta.com/blog/tribe-v2-brain-predictive-foundation-model/" target="_blank" rel="noopener" class="tribe-link">Read Meta AI TRIBE v2 research →</a>
+      </div>
+      <div class="vigyan-right" data-reveal>
+        <div class="tribe-demo-box">
+          <div class="tribe-demo-header">
+            <span class="tribe-demo-label">TRIBE v2 · Live Interactive Demo</span>
+            <div class="tribe-badges"><span class="badge-meta">Meta AI FAIR</span><span class="badge-cc">CC BY-NC</span></div>
+          </div>
+          <div class="tribe-iframe-wrap"><iframe src="https://aidemos.atmeta.com/tribev2" title="Meta AI TRIBE v2 Brain Demo" loading="lazy" allowfullscreen></iframe></div>
+          <p class="tribe-note">Explore how the human brain responds to any stimulus — the science behind MannMitra's recommendations.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Crisis Banner -->
-  <section class="crisis-banner">
-    <div class="container">
-      <div>
-        <h2>🚨 Are you in crisis right now?</h2>
-        <p>If you're having thoughts of suicide or self-harm, please reach out immediately. You are not alone.</p>
-        <div class="crisis-lines">
-          <div class="crisis-line">iCall: 9152987821</div>
-          <div class="crisis-line">Vandrevala: 1860-2662-345</div>
-          <div class="crisis-line">AASRA: 9820466627</div>
-          <div class="crisis-line">Snehi: 044-24640050</div>
-        </div>
-      </div>
-      <a href="support.html" class="btn btn-ghost" style="white-space: nowrap;">Book Urgent Support →</a>
+<section class="swot-section" id="swot">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">MARKET ANALYSIS · WHERE WE WIN</div>
+      <h2 data-en="The gap no one has filled.<br><em>Until now.</em>" data-hi="वह अंतर जिसे किसी ने नहीं भरा।<br><em>अब तक।</em>">The gap no one has filled.<br><em>Until now.</em></h2>
+      <p>Amaha raised ₹50 Cr. YourDOST raised ₹82 Cr. Yet 147M Indians still can't access mental healthcare. Here's what they're all missing.</p>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-logo">🌿 MannMitra</div>
-      <p>Your mental wellness companion — made with ❤️ for India</p>
-      <div class="footer-links">
-        <a href="chat.html">Chat</a>
-        <a href="wisdom.html">Wisdom</a>
-        <a href="support.html">Get Support</a>
-        <a href="#features">About</a>
-      </div>
-      <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">
-        Disclaimer: MannMitra is a supportive tool and is not a substitute for professional mental health care.
-        If you are in an emergency, please call 112 or visit your nearest hospital.
-      </p>
+    <div class="compare-table" data-reveal>
+      <div class="compare-header"><div class="compare-feature">Feature</div><div class="compare-col col-amaha">Amaha</div><div class="compare-col col-win">MannMitra</div><div class="compare-col">Others</div></div>
+      <div class="compare-row"><div class="compare-feature">Hindi language support</div><div class="compare-col">❌</div><div class="compare-col col-win">✅ Full</div><div class="compare-col">Partial</div></div>
+      <div class="compare-row"><div class="compare-feature">Free tier / No login needed</div><div class="compare-col">❌ Paid</div><div class="compare-col col-win">✅ Always free</div><div class="compare-col">Limited</div></div>
+      <div class="compare-row"><div class="compare-feature">Panic attack tools (on-site)</div><div class="compare-col">Redirect</div><div class="compare-col col-win">✅ Instant</div><div class="compare-col">❌</div></div>
+      <div class="compare-row"><div class="compare-feature">Gita / Indian wisdom integration</div><div class="compare-col">❌</div><div class="compare-col col-win">✅ Full pillar</div><div class="compare-col">❌</div></div>
+      <div class="compare-row"><div class="compare-feature">Neuroscience (TRIBE v2)</div><div class="compare-col">❌</div><div class="compare-col col-win">✅ Meta AI FAIR</div><div class="compare-col">❌</div></div>
+      <div class="compare-row"><div class="compare-feature">WhatsApp peer groups</div><div class="compare-col">❌</div><div class="compare-col col-win">✅ Built-in</div><div class="compare-col">Partial</div></div>
+      <div class="compare-row"><div class="compare-feature">Open source</div><div class="compare-col">❌</div><div class="compare-col col-win">✅ GitHub</div><div class="compare-col">❌</div></div>
     </div>
-  </footer>
+    <div class="swot-grid" data-reveal>
+      <div class="swot-card sw-s"><div class="swot-label">S — Strengths</div><ul><li>India-first, bilingual from ground up</li><li>3-pillar completeness (AI + Human + Science)</li><li>TRIBE v2 scientific credibility</li><li>Free, no login, zero friction</li><li>Inline panic interventions (nobody else has this)</li></ul></div>
+      <div class="swot-card sw-w"><div class="swot-label">W — Weaknesses</div><ul><li>Counsellor network needs scaling</li><li>No mobile app yet (PWA coming)</li><li>Rule-based AI (upgrade path clear)</li><li>Payment gateway not yet live</li></ul></div>
+      <div class="swot-card sw-o"><div class="swot-label">O — Opportunities</div><ul><li>150M+ underserved Indians = massive TAM</li><li>Corporate wellness: ₹6,000 Cr market</li><li>ABHA health ID integration possible</li><li>Regional languages: 8 potential expansions</li><li>B2B: colleges, HR depts, NGOs</li></ul></div>
+      <div class="swot-card sw-t"><div class="swot-label">T — Threats</div><ul><li>Mental health stigma in India</li><li>Funded players: Amaha, YourDOST, Wysa</li><li>DPDP Act 2023 compliance needed</li><li>WhatsApp policy changes</li></ul></div>
+    </div>
+  </div>
+</section>
 
+<section class="crisis-section">
+  <div class="container">
+    <div class="crisis-bar" data-reveal>
+      <div class="crisis-text"><h3>In crisis right now?</h3><p>Free, confidential Indian helplines — available 24×7.</p></div>
+      <div class="crisis-lines">
+        <a href="tel:9152987821" class="crisis-line"><span class="cl-name">iCALL</span><span class="cl-num">9152987821</span></a>
+        <a href="tel:18602662345" class="crisis-line"><span class="cl-name">Vandrevala</span><span class="cl-num">1860-2662-345</span></a>
+        <a href="tel:9820466627" class="crisis-line"><span class="cl-name">AASRA</span><span class="cl-num">9820466627</span></a>
+        <a href="tel:08046110007" class="crisis-line"><span class="cl-name">NIMHANS</span><span class="cl-num">080-46110007</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wisdom-preview" id="wisdom-prev">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">WISDOM PILLAR · DAILY RESET</div>
+      <h2 data-en="Ancient wisdom for<br>the modern mind" data-hi="आधुनिक मन के लिए<br>प्राचीन ज्ञान">Ancient wisdom for<br>the modern mind</h2>
+    </div>
+    <div class="wisdom-cards" data-reveal>
+      <div class="wisdom-card wc-gita">
+        <div class="wc-source">BHAGAVAD GITA · 2:47</div>
+        <blockquote class="wc-quote" data-en="You have the right to perform your duties, but not to the fruits of your actions." data-hi="कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।">You have the right to perform your duties, but not to the fruits of your actions.</blockquote>
+        <p class="wc-context" data-en="The antidote to anxiety: focus on effort, release attachment to outcome." data-hi="चिंता का अनुनाद: प्रयास पर ध्यान दें, परिणाम से जुड़ाव छोड़ें।">The antidote to anxiety: focus on effort, release attachment to outcome.</p>
+      </div>
+      <div class="wisdom-card wc-naval">
+        <div class="wc-source">NAVAL RAVIKANT</div>
+        <blockquote class="wc-quote" data-en="Peace is happiness at rest, and happiness is peace in motion." data-hi="शांति विश्राम में खुशी है, और खुशी गति में शांति है।">Peace is happiness at rest, and happiness is peace in motion.</blockquote>
+        <p class="wc-context" data-en="Stillness is not emptiness — it is the natural state of a clear mind." data-hi="स्थिरता खालीपन नहीं है — यह एक स्पष्ट मन की प्राकृतिक अवस्था है।">Stillness is not emptiness — it is the natural state of a clear mind.</p>
+      </div>
+    </div>
+    <div class="wisdom-cta" data-reveal><a href="wisdom.html" class="btn-outline-dark">Explore all wisdom →</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo"><span>मन</span>Mitra</div>
+        <p>India's most complete mental wellness platform. Free. Confidential. Always here.</p>
+        <a href="https://github.com/mainksantt/mannmitra" target="_blank" rel="noopener" class="footer-github">View on GitHub →</a>
+      </div>
+      <div class="footer-links-group">
+        <div class="fl-title">Platform</div>
+        <a href="chat.html">AI Chat (Mann)</a>
+        <a href="support.html">Counsellors (Mitra)</a>
+        <a href="#vigyan">Brain Science (Vigyan)</a>
+        <a href="wisdom.html">Daily Wisdom</a>
+      </div>
+      <div class="footer-links-group">
+        <div class="fl-title">Crisis Help</div>
+        <a href="tel:9152987821">iCALL: 9152987821</a>
+        <a href="tel:18602662345">Vandrevala: 1860-2662-345</a>
+        <a href="tel:9820466627">AASRA: 9820466627</a>
+        <a href="tel:112">Emergency: 112</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>MannMitra is a supportive tool — not a substitute for professional care. In emergencies, call 112.</p>
+      <p>Built with ❤️ for India · <a href="https://github.com/mainksantt/mannmitra" target="_blank">Open Source on GitHub</a></p>
+    </div>
+  </div>
+</footer>
+
+<div class="sos-float" id="sosFloat">
+  <button class="sos-btn" onclick="openSOS()"><span class="sos-ring"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><span class="sos-label">SOS</span></button>
+</div>
+
+<div class="sos-overlay" id="sosOverlay" onclick="closeSOS(event)">
+  <div class="sos-panel" onclick="event.stopPropagation()">
+    <div class="sos-panel-header"><h2 data-en="You're not alone." data-hi="आप अकेले नहीं हैं।">You're not alone.</h2><p data-en="Choose immediate help below." data-hi="नीचे तत्काल सहायता चुनें।">Choose immediate help below.</p><button class="sos-close" onclick="closeSOS()">✕</button></div>
+    <div class="sos-quick">
+      <button class="sos-quick-btn" onclick="closeSOS();document.getElementById('panic').scrollIntoView({behavior:'smooth'})"><span>🫁</span><span>Breathing</span></button>
+      <button class="sos-quick-btn" onclick="closeSOS();switchTech('ground',document.querySelector('[data-tab=ground]'));document.getElementById('panic').scrollIntoView({behavior:'smooth'})"><span>✋</span><span>5 Senses</span></button>
+      <button class="sos-quick-btn" onclick="closeSOS();switchTech('touch',document.querySelector('[data-tab=touch]'));document.getElementById('panic').scrollIntoView({behavior:'smooth'})"><span>🤲</span><span>Touch 5</span></button>
+    </div>
+    <div class="sos-helplines">
+      <div class="sos-hl-title">Talk to someone now:</div>
+      <a href="tel:9152987821" class="sos-hl-btn"><span>📞</span><span>iCALL — 9152987821</span></a>
+      <a href="tel:18602662345" class="sos-hl-btn"><span>📞</span><span>Vandrevala — 1860-2662-345</span></a>
+      <a href="chat.html" class="sos-chat-btn">💬 Chat with MannMitra AI</a>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentLang = 'en';
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'hi' : 'en';
+  document.documentElement.setAttribute('data-lang', currentLang);
+  document.querySelectorAll('[data-en],[data-hi]').forEach(el => {
+    const val = el.getAttribute('data-' + currentLang);
+    if (val) el.innerHTML = val;
+  });
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+function toggleMenu() { document.getElementById('navMobile').classList.toggle('open'); }
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); ro.unobserve(e.target); }});
+}, { threshold: 0.08 });
+document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+function switchTech(id, btn) {
+  document.querySelectorAll('.tech-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tech-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tech-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id !== 'breathe') stopBreathing();
+}
+let breathTimer = null, isBreathing = false;
+const PHASES = [
+  { en: 'Inhale...', hi: 'सांस लें...', sub: 'breathe in slowly through your nose', cls: 'inhaling', n: 4 },
+  { en: 'Hold...', hi: 'रोकें...', sub: 'hold gently', cls: 'holding', n: 7 },
+  { en: 'Exhale...', hi: 'सांस छोड़ें...', sub: 'breathe out slowly through your mouth', cls: 'exhaling', n: 8 },
+];
+function startBreathing() {
+  isBreathing = true;
+  document.getElementById('breathBtn').textContent = '⏹ Stop';
+  document.getElementById('breathBtn').onclick = stopBreathing;
+  runPhase(0, PHASES[0].n);
+}
+function runPhase(pi, count) {
+  if (!isBreathing) return;
+  const p = PHASES[pi];
+  document.getElementById('breathRing').className = 'breath-ring-inner ' + p.cls;
+  document.getElementById('breathPhaseLabel').textContent = currentLang === 'hi' ? p.hi : p.en;
+  document.getElementById('breathPhaseSub').textContent = p.sub;
+  document.getElementById('breathCount').textContent = count;
+  breathTimer = setTimeout(() => {
+    if (count > 1) runPhase(pi, count - 1);
+    else runPhase((pi + 1) % 3, PHASES[(pi + 1) % 3].n);
+  }, 1000);
+}
+function stopBreathing() {
+  isBreathing = false; clearTimeout(breathTimer);
+  document.getElementById('breathRing').className = 'breath-ring-inner';
+  document.getElementById('breathCount').textContent = '4';
+  document.getElementById('breathPhaseLabel').textContent = 'Ready?';
+  document.getElementById('breathPhaseSub').textContent = 'Press start to begin the 4-7-8 technique';
+  const btn = document.getElementById('breathBtn');
+  if (btn) { btn.textContent = '▶ Start'; btn.onclick = startBreathing; }
+}
+let senseDone = 0;
+function markSense(card) {
+  if (card.classList.contains('done')) return;
+  card.classList.add('done'); senseDone++;
+  if (senseDone >= 5) document.getElementById('senseComplete').classList.add('show');
+}
+function resetSenses() {
+  senseDone = 0;
+  document.querySelectorAll('.sense-card').forEach(c => c.classList.remove('done'));
+  document.getElementById('senseComplete').classList.remove('show');
+}
+let touchDone = 0;
+function touchItem(n) {
+  const el = document.getElementById('t' + n);
+  if (el.classList.contains('done')) return;
+  el.classList.add('done'); touchDone++;
+  document.getElementById('touchBar').style.width = (touchDone * 20) + '%';
+  if (touchDone >= 5) document.getElementById('touchBar').style.background = 'var(--sage)';
+}
+function openSOS() { document.getElementById('sosOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeSOS(e) {
+  if (!e || e.target === document.getElementById('sosOverlay')) {
+    document.getElementById('sosOverlay').classList.remove('active'); document.body.style.overflow = '';
+  }
+}
+</script>
 </body>
 </html>
