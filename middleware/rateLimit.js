@@ -68,11 +68,11 @@ const wisdomLimiter = rateLimit({
 });
 
 /**
- * Rate limiter for /health - 120 requests per minute per IP.
+ * Rate limiter for /health - 600 requests per minute per IP.
  */
 const healthLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 120,
+  max: 600,
   standardHeaders: true,
   legacyHeaders: false,
   handler(req, res) {

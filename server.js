@@ -45,6 +45,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// ── Health check ────────────────────────────────────────────────────────────────
+app.get('/health', healthLimiter, (_req, res) => {
+  try {
+    getDb().prepare('SELECT 1').get();
+    res.status(200).json({ status: 'ok' });
+  } catch (error) {
+    logger.error('Health check failed', { error: error.message });
+    res.status(500).json({ status: 'error' });
+  }
+});
+
 // ── Session ────────────────────────────────────────────────────────────────────
 const sessionStore = new ConnectSQLite3({
   db: config.databasePath.replace(/^\.\//, ''),
@@ -69,9 +80,6 @@ app.use(
 
 // ── CSRF protection for admin form submissions ─────────────────────────────────
 app.use(async (req, res, next) => {
-  if (req.path === '/health') {
-    return next();
-  }
   if (!req.session.csrfSecret) {
     req.session.csrfSecret = await csrf.secret();
   }
@@ -83,17 +91,6 @@ app.use(async (req, res, next) => {
 app.use((req, _res, next) => {
   logger.info('Request', { method: req.method, url: req.originalUrl, ip: req.ip });
   next();
-});
-
-// ── Health check ────────────────────────────────────────────────────────────────
-app.get('/health', healthLimiter, (_req, res) => {
-  try {
-    getDb().prepare('SELECT 1').get();
-    res.status(200).json({ status: 'ok' });
-  } catch (error) {
-    logger.error('Health check failed', { error: error.message });
-    res.status(500).json({ status: 'error' });
-  }
 });
 
 // ── Static files ───────────────────────────────────────────────────────────────
