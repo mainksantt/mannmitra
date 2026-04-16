@@ -90,3 +90,6 @@ The `/api/chat` endpoint detects phrases like *"want to die"*, *"hopeless"*, *"k
 
 MannMitra is a supportive tool and is **not** a substitute for professional mental health care. In an emergency, please call **112** or visit your nearest hospital.
 
+
+
+
