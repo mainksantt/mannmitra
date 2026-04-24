@@ -258,10 +258,11 @@ function makeRateLimitedApp(limiter) {
 describe('rateLimit middleware handlers', () => {
   test('chatLimiter returns 429 and expected message after exceeding limit', async () => {
     const app = makeRateLimitedApp(chatLimiter);
-    for (let i = 0; i < 50; i += 1) {
-      const okRes = await request(app).post('/limit').send({ message: 'hello' });
-      expect(okRes.status).toBe(200);
+    for (let i = 0; i < 49; i += 1) {
+      await request(app).post('/limit').send({ message: 'hello' });
     }
+    const lastAllowedRes = await request(app).post('/limit').send({ message: 'hello' });
+    expect(lastAllowedRes.status).toBe(200);
 
     const limitedRes = await request(app).post('/limit').send({ message: 'hello' });
     expect(limitedRes.status).toBe(429);
@@ -270,10 +271,11 @@ describe('rateLimit middleware handlers', () => {
 
   test('bookLimiter returns 429 and expected message after exceeding limit', async () => {
     const app = makeRateLimitedApp(bookLimiter);
-    for (let i = 0; i < 5; i += 1) {
-      const okRes = await request(app).post('/limit').send({ name: 'a' });
-      expect(okRes.status).toBe(200);
+    for (let i = 0; i < 4; i += 1) {
+      await request(app).post('/limit').send({ name: 'a' });
     }
+    const lastAllowedRes = await request(app).post('/limit').send({ name: 'a' });
+    expect(lastAllowedRes.status).toBe(200);
 
     const limitedRes = await request(app).post('/limit').send({ name: 'a' });
     expect(limitedRes.status).toBe(429);
@@ -282,10 +284,11 @@ describe('rateLimit middleware handlers', () => {
 
   test('adminExportLimiter returns 429 and expected message after exceeding limit', async () => {
     const app = makeRateLimitedApp(adminExportLimiter);
-    for (let i = 0; i < 20; i += 1) {
-      const okRes = await request(app).get('/limit');
-      expect(okRes.status).toBe(200);
+    for (let i = 0; i < 19; i += 1) {
+      await request(app).get('/limit');
     }
+    const lastAllowedRes = await request(app).get('/limit');
+    expect(lastAllowedRes.status).toBe(200);
 
     const limitedRes = await request(app).get('/limit');
     expect(limitedRes.status).toBe(429);
@@ -294,10 +297,11 @@ describe('rateLimit middleware handlers', () => {
 
   test('wisdomLimiter returns 429 and expected message after exceeding limit', async () => {
     const app = makeRateLimitedApp(wisdomLimiter);
-    for (let i = 0; i < 100; i += 1) {
-      const okRes = await request(app).get('/limit');
-      expect(okRes.status).toBe(200);
+    for (let i = 0; i < 99; i += 1) {
+      await request(app).get('/limit');
     }
+    const lastAllowedRes = await request(app).get('/limit');
+    expect(lastAllowedRes.status).toBe(200);
 
     const limitedRes = await request(app).get('/limit');
     expect(limitedRes.status).toBe(429);
