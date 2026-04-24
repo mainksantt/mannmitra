@@ -242,3 +242,65 @@ describe('errorHandler middleware', () => {
     process.env.NODE_ENV = savedEnv;
   });
 });
+
+// ── rateLimit handlers ─────────────────────────────────────────────────────────
+
+const { chatLimiter, bookLimiter, adminExportLimiter, wisdomLimiter } = require('../middleware/rateLimit');
+
+function makeRateLimitedApp(limiter) {
+  const app = express();
+  app.use(express.json());
+  app.post('/limit', limiter, (req, res) => res.json({ ok: true }));
+  app.get('/limit', limiter, (req, res) => res.json({ ok: true }));
+  return app;
+}
+
+describe('rateLimit middleware handlers', () => {
+  test('chatLimiter returns 429 and expected message after exceeding limit', async () => {
+    const app = makeRateLimitedApp(chatLimiter);
+    for (let i = 0; i < 50; i += 1) {
+      const okRes = await request(app).post('/limit').send({ message: 'hello' });
+      expect(okRes.status).toBe(200);
+    }
+
+    const limitedRes = await request(app).post('/limit').send({ message: 'hello' });
+    expect(limitedRes.status).toBe(429);
+    expect(limitedRes.body.error).toContain('Too many requests');
+  });
+
+  test('bookLimiter returns 429 and expected message after exceeding limit', async () => {
+    const app = makeRateLimitedApp(bookLimiter);
+    for (let i = 0; i < 5; i += 1) {
+      const okRes = await request(app).post('/limit').send({ name: 'a' });
+      expect(okRes.status).toBe(200);
+    }
+
+    const limitedRes = await request(app).post('/limit').send({ name: 'a' });
+    expect(limitedRes.status).toBe(429);
+    expect(limitedRes.body.error).toContain('booking attempts');
+  });
+
+  test('adminExportLimiter returns 429 and expected message after exceeding limit', async () => {
+    const app = makeRateLimitedApp(adminExportLimiter);
+    for (let i = 0; i < 20; i += 1) {
+      const okRes = await request(app).get('/limit');
+      expect(okRes.status).toBe(200);
+    }
+
+    const limitedRes = await request(app).get('/limit');
+    expect(limitedRes.status).toBe(429);
+    expect(limitedRes.body.error).toContain('Too many export requests');
+  });
+
+  test('wisdomLimiter returns 429 and expected message after exceeding limit', async () => {
+    const app = makeRateLimitedApp(wisdomLimiter);
+    for (let i = 0; i < 100; i += 1) {
+      const okRes = await request(app).get('/limit');
+      expect(okRes.status).toBe(200);
+    }
+
+    const limitedRes = await request(app).get('/limit');
+    expect(limitedRes.status).toBe(429);
+    expect(limitedRes.body.error).toContain('Too many requests');
+  });
+});
