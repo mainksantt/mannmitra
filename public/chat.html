@@ -3,83 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat — MannMitra</title>
+  <title>Chat — MannMitra | AI Mental Wellness Companion</title>
   <meta name="description" content="Talk to MannMitra — India's free, confidential 24×7 AI mental wellness companion. Bilingual Hindi and English support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="chat-page-body">
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">🌿</span>
-        MannMitra
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="wisdom.html">🕉️ Wisdom</a></li>
-        <li><a href="support.html">Talk to a Human</a></li>
-      </ul>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="brand-devanagari">मन</span><span class="brand-latin">Mitra</span></a>
+    <div class="nav-links">
+      <a href="index.html#pillars">Features</a>
+      <a href="wisdom.html">Wisdom</a>
+      <a href="index.html#vigyan">Science</a>
+      <a href="support.html">Counsellors</a>
     </div>
-  </nav>
+    <div class="nav-actions">
+      <a href="support.html" class="btn btn-ghost" style="font-size:0.85rem; padding:7px 16px;">🤝 Talk to Human</a>
+    </div>
+    <button class="nav-burger" onclick="document.getElementById('navMobile').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#pillars">Features</a>
+    <a href="wisdom.html">Wisdom</a>
+    <a href="index.html#vigyan">Science</a>
+    <a href="support.html">Counsellors</a>
+    <a href="support.html" class="nav-cta-mobile">Talk to Human →</a>
+  </div>
+</nav>
 
-  <!-- Chat Layout -->
-  <div class="chat-layout">
+<div class="chat-layout">
 
-    <!-- Chat Header -->
-    <div class="chat-header">
-      <div class="chat-header-info">
-        <div class="avatar">🌿</div>
-        <div>
-          <h2>MannMitra</h2>
-          <div class="chat-status">
-            <div class="status-dot"></div>
-            Online &amp; Ready to listen
-          </div>
+  <!-- Chat Header -->
+  <div class="chat-page-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar-circle">म</div>
+      <div>
+        <h2>MannMitra</h2>
+        <div class="chat-online-status">
+          <div class="status-dot"></div>
+          Online · Hindi + English · Free &amp; Confidential
         </div>
       </div>
-      <a href="support.html" class="btn btn-ghost" style="font-size: 0.85rem; padding: 0.45rem 1rem;">
-        🤝 Talk to a Human
-      </a>
     </div>
-
-    <!-- Messages -->
-    <div class="chat-messages" id="chatMessages">
-      <!-- Welcome message rendered by JS -->
-    </div>
-
-    <!-- Input Area -->
-    <div class="chat-input-area">
-      <div class="quick-replies" id="quickReplies">
-        <button class="quick-reply" data-msg="I'm feeling anxious">😰 Anxious</button>
-        <button class="quick-reply" data-msg="I'm feeling sad">😢 Sad</button>
-        <button class="quick-reply" data-msg="I'm very stressed">😤 Stressed</button>
-        <button class="quick-reply" data-msg="I'm feeling lonely">😔 Lonely</button>
-        <button class="quick-reply" data-msg="I can't sleep">🌙 Can't sleep</button>
-        <button class="quick-reply" data-msg="Share a Gita verse with me">📖 Gita Wisdom</button>
-        <button class="quick-reply" data-msg="Share Naval Ravikant wisdom">💡 Naval Wisdom</button>
-        <button class="quick-reply" data-msg="I need motivation">🌟 Motivate me</button>
-      </div>
-      <div class="input-row">
-        <textarea
-          id="messageInput"
-          rows="1"
-          placeholder="Share what's on your mind… (press Enter to send)"
-          aria-label="Type your message"
-        ></textarea>
-        <button id="sendBtn" aria-label="Send message">➤</button>
-      </div>
-      <p class="input-disclaimer">
-        🔒 This conversation is private &amp; confidential.
-        MannMitra is not a substitute for professional care.
-        In emergencies call <strong>112</strong>.
-      </p>
-    </div>
-
+    <a href="support.html" class="btn btn-outline" style="font-size:0.82rem; padding:8px 16px; flex-shrink:0;">
+      🤝 Human Support
+    </a>
   </div>
 
-  <script src="js/chat.js"></script>
+  <!-- Messages -->
+  <div class="chat-messages" id="chatMessages">
+    <!-- Welcome message rendered by JS -->
+  </div>
+
+  <!-- Input Area -->
+  <div class="chat-input-area">
+    <div class="quick-replies" id="quickReplies">
+      <button class="quick-reply" data-msg="I'm feeling anxious">😰 Anxious</button>
+      <button class="quick-reply" data-msg="I'm feeling sad">😢 Sad</button>
+      <button class="quick-reply" data-msg="I'm very stressed">😤 Stressed</button>
+      <button class="quick-reply" data-msg="I'm feeling lonely">😔 Lonely</button>
+      <button class="quick-reply" data-msg="I can't sleep">🌙 Can't sleep</button>
+      <button class="quick-reply" data-msg="Share a Gita verse with me">📖 Gita Wisdom</button>
+      <button class="quick-reply" data-msg="Share Naval Ravikant wisdom">💡 Naval Wisdom</button>
+      <button class="quick-reply" data-msg="I need motivation">🌟 Motivate me</button>
+    </div>
+    <div class="input-row">
+      <textarea
+        id="messageInput"
+        rows="1"
+        placeholder="Share what's on your mind… (Enter to send)"
+        aria-label="Type your message"
+      ></textarea>
+      <button id="sendBtn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <p class="input-disclaimer">
+      🔒 Private &amp; confidential · Not a substitute for professional care · Emergency: <strong>112</strong> or <strong>9152987821</strong>
+    </p>
+  </div>
+
+</div>
+
+<script src="js/chat.js"></script>
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+</script>
 </body>
 </html>

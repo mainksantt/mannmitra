@@ -4,17 +4,15 @@ const path = require('path');
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 
+// Vercel and other serverless platforms have a read-only filesystem;
+// skip file transports to avoid EROFS crashes.
+const isServerless = process.env.VERCEL === '1' || process.env.SERVERLESS === '1';
 const logsDir = path.join(__dirname, 'logs');
 
-const logger = createLogger({
-  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-  format: format.combine(
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    format.errors({ stack: true }),
-    format.splat(),
-    format.json()
-  ),
-  transports: [
+const loggerTransports = [];
+
+if (!isServerless) {
+  loggerTransports.push(
     // Daily rotating file for all logs
     new transports.DailyRotateFile({
       dirname: logsDir,
@@ -31,17 +29,28 @@ const logger = createLogger({
       level: 'error',
       maxFiles: '30d',
       zippedArchive: true,
-    }),
-  ],
-});
-
-// Also log to console in non-production environments
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new transports.Console({
-      format: format.combine(format.colorize(), format.simple()),
     })
   );
 }
+
+// Always log to console (required on serverless where file logging is unavailable)
+loggerTransports.push(
+  new transports.Console({
+    format: process.env.NODE_ENV !== 'production'
+      ? format.combine(format.colorize(), format.simple())
+      : format.combine(format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), format.json()),
+  })
+);
+
+const logger = createLogger({
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.errors({ stack: true }),
+    format.splat(),
+    format.json()
+  ),
+  transports: loggerTransports,
+});
 
 module.exports = logger;

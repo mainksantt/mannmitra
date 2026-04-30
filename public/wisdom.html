@@ -4,28 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ज्ञान — MannMitra | Gita &amp; Naval Wisdom</title>
-  <link rel="stylesheet" href="css/style.css" />
   <meta name="description" content="Daily Bhagavad Gita verse and Naval Ravikant wisdom — curated for your mental wellbeing and personal growth." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">🌿</span>
-        MannMitra
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="chat.html">AI Chat</a></li>
-        <li><a href="wisdom.html" class="active">Wisdom</a></li>
-        <li><a href="support.html">Get Support</a></li>
-      </ul>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="brand-devanagari">मन</span><span class="brand-latin">Mitra</span></a>
+    <div class="nav-links">
+      <a href="index.html#pillars">Features</a>
+      <a href="wisdom.html" style="color:var(--white)">Wisdom</a>
+      <a href="index.html#vigyan">Science</a>
+      <a href="support.html">Counsellors</a>
     </div>
-  </nav>
+    <div class="nav-actions">
+      <a href="chat.html" class="nav-cta">Talk Now</a>
+    </div>
+    <button class="nav-burger" onclick="document.getElementById('navMobile').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#pillars">Features</a>
+    <a href="wisdom.html">Wisdom</a>
+    <a href="index.html#vigyan">Science</a>
+    <a href="support.html">Counsellors</a>
+    <a href="chat.html" class="nav-cta-mobile">Talk Now →</a>
+  </div>
+</nav>
 
   <!-- Hero -->
   <section class="wisdom-hero">
@@ -164,20 +174,18 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-logo">🌿 MannMitra</div>
-      <p>Your mental wellness companion — made with ❤️ for India</p>
-      <div class="footer-links">
+  <footer class="inner-footer">
+    <div class="inner-footer-inner">
+      <div class="inner-footer-brand"><span>मन</span>Mitra</div>
+      <nav class="inner-footer-links">
         <a href="index.html">Home</a>
         <a href="chat.html">AI Chat</a>
         <a href="wisdom.html">Wisdom</a>
-        <a href="support.html">Get Support</a>
-      </div>
-      <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">
-        Disclaimer: MannMitra is a supportive tool and is not a substitute for professional mental health care.
-        If you are in an emergency, please call 112 or visit your nearest hospital.
-      </p>
+        <a href="support.html">Counsellors</a>
+      </nav>
+    </div>
+    <div class="inner-footer-bottom">
+      <p>MannMitra is a supportive tool — not a substitute for professional care. In emergencies, call <strong style="color:rgba(255,255,255,0.5)">112</strong>.</p>
     </div>
   </footer>
 
@@ -347,7 +355,12 @@
     loadGitaVerse();
     loadNavalQuote();
     loadCategories();
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+    });
   </script>
 
 </body>
 </html>
+
