@@ -79,9 +79,11 @@ async function sendAdminNotification(booking) {
       </div>
     `,
   };
-  if (!config.email.user || !config.email.pass) {
-    logger.warn('Email credentials not set — using test account stub');
-    return null;
+  try {
+    await transporter.sendMail(mailOptions);
+    logger.info('Admin notification email sent', { to: config.email.adminEmail });
+  } catch (err) {
+    logger.error('Failed to send admin notification email', { error: err.message });
   }
 }
 
