@@ -85,6 +85,11 @@ app.use((req, _res, next) => {
 // ── Static files ───────────────────────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ── Health check ───────────────────────────────────────────────────────────────
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // ── Routes ─────────────────────────────────────────────────────────────────────
 app.use('/api', apiRouter);
 app.use('/api/wisdom', wisdomRouter);
